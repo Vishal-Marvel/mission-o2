@@ -25,7 +25,6 @@ import java.util.Map;
 @Component
 public class StatesDistrictTalukCreation implements CommandLineRunner {
     private final StateRepo stateRepo;
-    private final DistrictRepo districtRepo;
     private final MongoTemplate mongoTemplate;
 
     @Override
