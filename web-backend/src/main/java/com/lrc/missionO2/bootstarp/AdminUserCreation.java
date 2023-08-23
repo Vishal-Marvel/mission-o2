@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class Bootstrap implements CommandLineRunner {
+public class AdminUserCreation implements CommandLineRunner {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
 

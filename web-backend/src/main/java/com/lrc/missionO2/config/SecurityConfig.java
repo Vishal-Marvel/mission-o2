@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-//@EnableMethodSecurity
 @EnableWebSecurity
 @RequiredArgsConstructor
 @SecurityScheme(
@@ -29,7 +28,7 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception{
         return httpSecurity.csrf().disable()
                 .authorizeHttpRequests(auth ->auth
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
                 .build();
 
     }
