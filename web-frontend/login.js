@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('password', password);
         
         alert('Login successful. User data stored in local storage.');
-        window.location.href = 'https://www.google.com';
+        window.location.href = 'panel.html';
       } else {
         alert('Please enter both username and password.');
       }
