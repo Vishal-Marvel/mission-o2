@@ -44,7 +44,7 @@ public class UserService {
     private static final int ID_LENGTH = 6;
 
     private byte[] getProof(String id){
-        return fileRepo.findById(id).orElseThrow(()->new ItemNotFoundException("Plant with id: " + id + "not Found"))
+        return fileRepo.findById(id).orElseThrow(()->new ItemNotFoundException("User Image with id: " + id + "not Found"))
                 .getData();
     }
 
