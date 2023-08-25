@@ -19,7 +19,7 @@ import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/user")
 public class UserController {
     private final UserService userService;
 
