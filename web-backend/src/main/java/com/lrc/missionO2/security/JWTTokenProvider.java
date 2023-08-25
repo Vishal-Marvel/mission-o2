@@ -1,6 +1,6 @@
 package com.lrc.missionO2.security;
 
-import com.KiyoInteriors.ECommerce.exceptions.APIException;
+import com.lrc.missionO2.exceptions.APIException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

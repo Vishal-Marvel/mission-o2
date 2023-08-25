@@ -22,6 +22,8 @@ public class User {
     private Address address;
     private String email;
     private UserRole role;
+    private Date dob;
+    private String proof;
     private String OTP;
     private Date OTPLimit;
     private boolean verified;
