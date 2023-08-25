@@ -35,8 +35,7 @@ public class StatesDistrictTalukCreation implements CommandLineRunner {
             FileInputStream excel = new FileInputStream("src\\main\\resources\\static\\details.xls");
             Workbook workbook = new HSSFWorkbook(excel);
             Sheet sheet = workbook.getSheetAt(0);
-            List<String> newStates = new ArrayList<>();
-            List<State> states = new ArrayList<>();
+            Map<String , State> states = new HashMap<>();
             Map<String, District> districts = new HashMap<>();
 
 //        for (Sheet sheet : workbook){
@@ -53,28 +52,24 @@ public class StatesDistrictTalukCreation implements CommandLineRunner {
 
                     District districtObj = new District();
                     districtObj.setDistrictName(districtName);
-                    districtObj.setState(stateObj);
-
-                    if (!newStates.contains(stateName)) {
-                        newStates.add(stateName);
-                        states.add(stateObj);
+                    districtObj.setState(states.getOrDefault(stateName, stateObj));
+                    if (!states.containsKey(stateName)){
+                        states.put(stateName, stateObj);
                     }
+
                     District district = districts.getOrDefault(districtName, districtObj);
                     district.getTaluks().add(talukName);
                     districts.put(districtName, district);
 
                 }
             }
-            if (newStates.size() > 0) {
-                BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.UNORDERED, State.class);
-                bulkOps.insert(states);
-                bulkOps.execute();
-            }
-            if (districts.size() > 0) {
-                BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.UNORDERED, District.class);
-                bulkOps.insert(districts.values().stream().toList());
-                bulkOps.execute();
-            }
+            BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.UNORDERED, State.class);
+            bulkOps.insert(states.values().stream().toList());
+            bulkOps.execute();
+            bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.UNORDERED, District.class);
+            bulkOps.insert(districts.values().stream().toList());
+            bulkOps.execute();
+
 
 
             long endTime = System.currentTimeMillis();

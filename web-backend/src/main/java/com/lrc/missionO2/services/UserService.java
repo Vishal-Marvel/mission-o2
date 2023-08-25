@@ -92,7 +92,6 @@ public class UserService {
 
         User user = userRepo.findByEmail(authenticationRequest.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User Not found"));
-        System.out.println(passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword()));
         if ( !passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword())){
             throw new AccessDeniedException("Bad Credentials");
         }

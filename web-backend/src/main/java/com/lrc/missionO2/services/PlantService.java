@@ -2,7 +2,6 @@ package com.lrc.missionO2.services;
 
 import com.lrc.missionO2.DTO.Request.PlantRequest;
 import com.lrc.missionO2.DTO.Response.PlantViewResponse;
-import com.lrc.missionO2.DTO.Response.PlantsResponse;
 import com.lrc.missionO2.entity.FileData;
 import com.lrc.missionO2.entity.Plant;
 import com.lrc.missionO2.exceptions.ItemNotFoundException;
@@ -38,11 +37,14 @@ public class PlantService {
 
     }
 
-    public List<PlantsResponse> viewAllPlants() {
+    public List<PlantViewResponse> viewAllPlants() {
         List<Plant> plants = plantRepo.findAll();
-        return plants.stream().map((plant)-> PlantsResponse.builder()
-                .image(getPlantImage(plant.getImage()))
+        return plants.stream().map((plant)-> PlantViewResponse.builder()
+                .images(getPlantImage(plant.getImage()))
                 .id(plant.getId())
+                .plantPrice(plant.getPlantPrice())
+                .name(plant.getName())
+                .seedPrice(plant.getSeedPrice())
                 .build())
                 .toList();
     }
