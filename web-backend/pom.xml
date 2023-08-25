@@ -95,6 +95,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>spring-boot-mission-o2-exe</finalName>
 
 	</build>
 

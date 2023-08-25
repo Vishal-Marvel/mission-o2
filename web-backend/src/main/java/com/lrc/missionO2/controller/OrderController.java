@@ -36,16 +36,17 @@ public class OrderController {
 
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    @GetMapping("/view-orders/{uid}")
-    public ResponseEntity<List<OrderResponse>> viewUserOrders(@PathVariable String uid){
-        return ResponseEntity.ok(orderService.viewOrders(uid));
+    @GetMapping("/view-user-orders")
+    public ResponseEntity<List<OrderResponse>> viewUserOrders(
+            @RequestParam(value = "user", required = false) String user){
+        return ResponseEntity.ok(orderService.viewOrders(user));
     }
 
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    @GetMapping("/view-order/{id}")
-    public ResponseEntity<OrderResponse> viewOrder(@PathVariable String id){
-        return ResponseEntity.ok(orderService.viewOrder(id));
+    @GetMapping("/view-order/{orderId}")
+    public ResponseEntity<OrderResponse> viewOrder(@PathVariable String orderId){
+        return ResponseEntity.ok(orderService.viewOrder(orderId));
     }
 
     @SecurityRequirement(name = "Bearer Authentication")

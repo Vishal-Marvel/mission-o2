@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -89,7 +90,12 @@ public class OrderService {
 
         if (user != null) {
             query.addCriteria(Criteria.where("user").is(user));
+        }else if (SecurityContextHolder.getContext().getAuthentication()
+                .getAuthorities().contains(new SimpleGrantedAuthority(UserRole.ROLE_USER.name()))){
+            query.addCriteria(Criteria.where("user")
+                    .is(SecurityContextHolder.getContext().getAuthentication().getName()));
         }
+
         List<Order> orders = mongoOperations.find(query, Order.class);
         return orders.stream().map((order)->
                 OrderResponse.builder()
@@ -97,6 +103,7 @@ public class OrderService {
                         .orderNum(order.getOrderNum())
                         .orderStatus(order.getOrderStatus())
                         .totalPrice(order.getTotalPrice())
+                        .totalPlant(order.getTotalPlants())
                         .state(order.getState())
                         .district(order.getDistrict())
                         .taluk(order.getTaluk())
