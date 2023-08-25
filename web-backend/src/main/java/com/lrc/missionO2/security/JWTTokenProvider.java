@@ -24,15 +24,24 @@ public class JWTTokenProvider {
      @Value("${KEY}")
      private String jwtSecret;
 
-     @Value("${TIME}")
-     private long expiration;
+     @Value("${PORTAL_TIME}")
+     private long portalExpiration;
 
-     public String generateToken(Authentication authentication) {
+     @Value("${APP_TIME}")
+     private long appExpiration;
+
+     public String generateToken(Authentication authentication, boolean isApp ) {
           String usernameOrEmail = authentication.getName();
           Date currentDate = new Date();
-          long jwtExpirationDate = expiration;
-          Date expiryDate = new Date(currentDate.getTime() + jwtExpirationDate);
+          long jwtExpirationDate;
+          if (isApp) {
+               jwtExpirationDate = appExpiration;
+          }
+          else{
+               jwtExpirationDate = portalExpiration;
+          }
 
+          Date expiryDate = new Date(currentDate.getTime() + jwtExpirationDate);
           return Jwts.builder()
                   .setSubject(usernameOrEmail)
                   .setIssuedAt(currentDate)

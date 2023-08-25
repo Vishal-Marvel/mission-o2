@@ -13,6 +13,6 @@ public class ViewProfileResponse {
     private String mobile;
     private String address;
     private String city, state;
-    private String proof;
+    private byte[] proof;
 
 }

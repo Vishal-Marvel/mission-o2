@@ -10,22 +10,25 @@ import com.lrc.missionO2.entity.Address;
 import com.lrc.missionO2.entity.FileData;
 import com.lrc.missionO2.entity.User;
 import com.lrc.missionO2.entity.UserRole;
+import com.lrc.missionO2.exceptions.ItemNotFoundException;
 import com.lrc.missionO2.exceptions.UserNotFoundException;
 import com.lrc.missionO2.repository.FileRepo;
 import com.lrc.missionO2.repository.UserRepo;
 import com.lrc.missionO2.security.JWTTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.security.SecureRandom;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -36,8 +39,14 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final FileRepo fileRepo;
     private final JWTTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
     private static final String CHARACTERS = "0123456789";
     private static final int ID_LENGTH = 6;
+
+    private byte[] getProof(String id){
+        return fileRepo.findById(id).orElseThrow(()->new ItemNotFoundException("Plant with id: " + id + "not Found"))
+                .getData();
+    }
 
     public static String generateUniqueID() {
         SecureRandom random = new SecureRandom();
@@ -54,38 +63,44 @@ public class UserService {
 
     public String registerViaApp(RegisterRequest registerRequest) {
         Optional<User> optionalUser = userRepo.findByMobile(registerRequest.getMobile());
+
         if (optionalUser.isEmpty()) {
             User user = new User();
             user.setMobile(registerRequest.getMobile());
+            user.setPassword(passwordEncoder.encode(registerRequest.getMobile()));
             user.setRole(UserRole.ROLE_USER);
             user.setVerified(false);
             user.setOTP(generateUniqueID());
-            user.setOTPLimit(new Date(new java.util.Date().getTime()+1000*60*60));
+            user.setOTPLimit(new Date(new Date().getTime() + 1000*60*60));
             //TODO: OTP services
 
             userRepo.save(user);
             return "User Registered";
         }
         else{
-            return "User Already Exists";
+            User user = optionalUser.get();
+            user.setOTP(generateUniqueID());
+            user.setOTPLimit(new Date(new Date().getTime() + 1000*60*60));
+            userRepo.save(user);
+            return "OTP Sent";
         }
     }
 
 
     public AuthenticationResponse authenticatePortal(AuthenticationRequest authenticationRequest) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                authenticationRequest.getEmail(), authenticationRequest.getPassword()));
+
+
         User user = userRepo.findByEmail(authenticationRequest.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User Not found"));
-        if (!user.isVerified()){
-            throw new AccessDeniedException("User not Verified");
+        System.out.println(passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword()));
+        if ( !passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword())){
+            throw new AccessDeniedException("Bad Credentials");
         }
         Authentication auth = new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword());
-        SecurityContextHolder.getContext().setAuthentication(auth);
         userRepo.save(user);
         return AuthenticationResponse.builder()
                 .token(jwtTokenProvider
-                        .generateToken(auth))
+                        .generateToken(auth, false))
                 .role(user.getRole().name())
                 .build();
     }
@@ -94,18 +109,20 @@ public class UserService {
 
         User user = userRepo.findByMobile(appLoginRequest.getMobile())
                 .orElseThrow(() -> new UsernameNotFoundException("User Not found"));
-        if (!Objects.equals(user.getOTP(), appLoginRequest.getOtp())){
+
+        if (!Objects.equals(user.getOTP(), appLoginRequest.getOtp()) || new Date().after(user.getOTPLimit())){
+
             throw new AccessDeniedException("Invalid OTP");
         }
+
         user.setOTPLimit(null);
         user.setOTP(null);
-        Authentication auth = new UsernamePasswordAuthenticationToken(user.getId(), null);
+        Authentication auth = new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword());
 
-        SecurityContextHolder.getContext().setAuthentication(auth);
         userRepo.save(user);
         return AuthenticationResponse.builder()
                 .token(jwtTokenProvider
-                        .generateToken(auth))
+                        .generateToken(auth, true))
                 .role(user.getRole().name())
                 .build();
     }
@@ -145,7 +162,7 @@ public class UserService {
         return ViewProfileResponse.builder()
                 .address(user.getAddress().getAddressLine1())
                 .email(user.getEmail())
-                .proof(user.getProof())
+                .proof(getProof(user.getProof()))
                 .mobile(user.getMobile())
                 .city(user.getAddress().getCity())
                 .state(user.getAddress().getState())
