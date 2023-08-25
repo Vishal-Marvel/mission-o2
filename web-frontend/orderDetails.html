@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Details</title>
+  <link rel="stylesheet" href="orderDetails.css">
+</head>
+<body>
+  <div class="order-details-container">
+    <div class="user-details">
+      <h2>User Details</h2>
+      <p><strong>Name:</strong> <span id="userName"></span></p>
+      <p><strong>Address:</strong> <span id="userAddress"></span></p>
+      <p><strong>District:</strong> <span id="userDistrict"></span></p>
+      <p><strong>Taluk:</strong> <span id="userTaluk"></span></p>
+      <p><strong>State:</strong> <span id="userState"></span></p>
+      <p><strong>Date of Order:</strong> <span id="dateOfOrder"></span></p>
+    </div>
+
+    <div class="plant-details">
+      <h2>Plant Details</h2>
+      <p><strong>Plant Name:</strong> <span id="plantName"></span></p>
+      <p><strong>Quantity:</strong> <span id="plantQuantity"></span></p>
+      <p><strong>Details:</strong> <span id="plantDetails"></span></p>
+    </div>
+
+    <div class="location-details">
+      <h2>Location Details</h2>
+      <p><strong>Google Maps Link:</strong> <a id="googleMapsLink" target="_blank" rel="noopener noreferrer">Open in Google Maps</a></p>
+      <p><strong>Location Image:</strong></p>
+      <div id="locationImages"></div>
+    </div>
+
+    <button id="approveOrderButton">Approve Order</button>
+  </div>
+  
+  <script src="orderDetails.js"></script>
+</body>
+</html>
