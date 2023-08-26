@@ -1,17 +1,19 @@
-body {
+  body{
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+    margin: 50px;
+    padding: 50px;
     background-color: #f5f5f5;
+    align-items: center;
   }
   
-  .order-details-container {
+  .plantDetailsContainer {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #ffffffdc;
     border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    align-items: center;
   }
   
   h2 {
