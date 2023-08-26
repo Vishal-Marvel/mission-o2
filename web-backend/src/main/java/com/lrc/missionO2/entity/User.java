@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -22,6 +23,8 @@ public class User {
     private Address address;
     private String email;
     private UserRole role;
+    private Date dob;
+    private String proof;
     private String OTP;
     private Date OTPLimit;
     private boolean verified;

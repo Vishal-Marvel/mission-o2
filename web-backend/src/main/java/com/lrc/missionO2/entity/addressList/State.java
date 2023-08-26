@@ -1,19 +1,16 @@
-package com.lrc.missionO2.entity;
+package com.lrc.missionO2.entity.addressList;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
 import java.util.UUID;
 
-@Document(collection = "plants")
 @Data
-public class Plant {
+@Document(collection = "states")
+public class State {
     @Id
     private String id = UUID.randomUUID().toString();
-    private String name;
-    private String image;
-    private Float seedPrice;
-    private Float plantPrice;
+    private String stateName;
+    private String capital;
 }
