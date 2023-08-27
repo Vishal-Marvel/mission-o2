@@ -2,6 +2,7 @@ package com.lrc.missionO2.controller;
 
 import com.lrc.missionO2.DTO.Request.CreateOrderRequest;
 import com.lrc.missionO2.DTO.Response.MiscResponse;
+import com.lrc.missionO2.DTO.Response.OrderListResponse;
 import com.lrc.missionO2.DTO.Response.OrderResponse;
 import com.lrc.missionO2.DTO.Response.PlaceCount;
 import com.lrc.missionO2.services.OrderService;
@@ -30,14 +31,14 @@ public class OrderController {
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/view-orders")
-    public ResponseEntity<List<OrderResponse>> viewOrders(){
+    public ResponseEntity<List<OrderListResponse>> viewOrders(){
         return ResponseEntity.ok(orderService.viewOrders(null));
     }
 
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/view-user-orders")
-    public ResponseEntity<List<OrderResponse>> viewUserOrders(
+    public ResponseEntity<List<OrderListResponse>> viewUserOrders(
             @RequestParam(value = "user", required = false) String user){
         return ResponseEntity.ok(orderService.viewOrders(user));
     }
@@ -49,9 +50,16 @@ public class OrderController {
         return ResponseEntity.ok(orderService.viewOrder(orderId));
     }
 
+    @SecurityRequirement(name= "Bearer Authentication")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/view-pending-orders")
+    public ResponseEntity<List<OrderListResponse>> viewPendingOrders(){
+        return ResponseEntity.ok(orderService.viewPendingOrders());
+    }
+
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/approve/{id}/{status}")
+    @PostMapping("/status/{id}/{status}")
     public ResponseEntity<MiscResponse> approveOrder(@PathVariable String id, @PathVariable String status){
         String response = orderService.updateStatus(id, status);
         return ResponseEntity.ok(MiscResponse.builder().response(response).build());

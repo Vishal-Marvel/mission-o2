@@ -1,6 +1,7 @@
 package com.lrc.missionO2.services;
 
 import com.lrc.missionO2.DTO.Request.CreateOrderRequest;
+import com.lrc.missionO2.DTO.Response.OrderListResponse;
 import com.lrc.missionO2.DTO.Response.OrderResponse;
 import com.lrc.missionO2.DTO.Response.PlaceCount;
 import com.lrc.missionO2.entity.*;
@@ -23,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.DoubleStream;
@@ -55,6 +57,7 @@ public class OrderService {
         order.setTaluk(createOrderRequest.getTaluk());
         order.setState(createOrderRequest.getState());
         order.setLocationURL(createOrderRequest.getLocationURL());
+        order.setOrderDate(new Date());
         order.setImages(createOrderRequest.getImages().stream().map((img)->{
             FileData fileData = new FileData();
             try {
@@ -85,7 +88,7 @@ public class OrderService {
         return "Order Saved";
     }
 
-    public List<OrderResponse> viewOrders(String user) {
+    public List<OrderListResponse> viewOrders(String user) {
         Query query = new Query();
 
         if (user != null) {
@@ -98,9 +101,10 @@ public class OrderService {
 
         List<Order> orders = mongoOperations.find(query, Order.class);
         return orders.stream().map((order)->
-                OrderResponse.builder()
+                OrderListResponse.builder()
                         .id(order.getId())
                         .orderNum(order.getOrderNum())
+                        .orderDate(order.getOrderDate())
                         .orderStatus(order.getOrderStatus())
                         .totalPrice(order.getTotalPrice())
                         .totalPlant(order.getTotalPlants())
@@ -122,6 +126,8 @@ public class OrderService {
                 .locationURL(order.getLocationURL())
                 .totalPrice(order.getTotalPrice())
                 .totalPlant(order.getTotalPlants())
+                .userId(order.getUser())
+                .orderDate(order.getOrderDate())
                 .user(userRepo.findById(order.getUser())
                         .orElseThrow(() -> new UserNotFoundException("User Not Found")).getUsername())
                 .products(order.getProducts())
@@ -175,5 +181,23 @@ public class OrderService {
                                     .build())
                     .toList();
         }
+    }
+
+    public List<OrderListResponse> viewPendingOrders() {
+        List<Order> orders = orderRepo.findAllByOrderStatus("PENDING");
+        return orders.stream().map((order)->
+                        OrderListResponse.builder()
+                                .id(order.getId())
+                                .orderNum(order.getOrderNum())
+                                .orderDate(order.getOrderDate())
+                                .orderStatus(order.getOrderStatus())
+                                .totalPrice(order.getTotalPrice())
+                                .totalPlant(order.getTotalPlants())
+                                .state(order.getState())
+                                .district(order.getDistrict())
+                                .taluk(order.getTaluk())
+                                .build()
+                )
+                .toList();
     }
 }

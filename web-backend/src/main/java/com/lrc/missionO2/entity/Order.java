@@ -14,6 +14,7 @@ public class Order {
     private String id = UUID.randomUUID().toString();
     private String orderNum = UUID.randomUUID().toString().substring(0, 7);
     private String user;
+    private Date orderDate;
     private String orderStatus;
     private String locationURL;
     private String district;
