@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface DistrictRepo extends MongoRepository<District, String> {
     boolean existsByDistrictName(String district);
-    Optional<District> findByDistrictNameLikeIgnoreCase(String district);
+    Optional<District> findByDistrictNameLikeIgnoreCaseAndState(String district, State state);
     List<District> findAllByState(State state);
 
 }

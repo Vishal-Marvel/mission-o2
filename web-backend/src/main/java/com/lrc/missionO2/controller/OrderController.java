@@ -75,4 +75,10 @@ public class OrderController {
         return ResponseEntity.ok(orderService.viewCount(state, district));
     }
 
+    @GetMapping("/total-plants")
+    public ResponseEntity<MiscResponse> getTotalPlantedCount(){
+        String count= String.valueOf(orderService.getTotalCount());
+        return ResponseEntity.ok(MiscResponse.builder().response(count).build());
+    }
+
 }

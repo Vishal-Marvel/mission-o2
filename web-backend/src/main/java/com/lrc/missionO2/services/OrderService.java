@@ -4,6 +4,7 @@ import com.lrc.missionO2.DTO.Request.CreateOrderRequest;
 import com.lrc.missionO2.DTO.Response.OrderListResponse;
 import com.lrc.missionO2.DTO.Response.OrderResponse;
 import com.lrc.missionO2.DTO.Response.PlaceCount;
+import com.lrc.missionO2.DTO.Response.SumResult;
 import com.lrc.missionO2.entity.*;
 import com.lrc.missionO2.entity.addressList.District;
 import com.lrc.missionO2.entity.addressList.State;
@@ -17,6 +18,9 @@ import com.lrc.missionO2.repository.PlantRepo;
 import com.lrc.missionO2.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,7 +31,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.DoubleStream;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +42,7 @@ public class OrderService {
     private final MongoOperations mongoOperations;
     private final StateRepo stateRepo;
     private final DistrictRepo districtRepo;
+    private final MongoTemplate mongoTemplate;
 
 
     private byte[] getImage(String id){
@@ -170,8 +174,10 @@ public class OrderService {
                     .toList();
             
         }
-        else {
-            District requiredDistrict = districtRepo.findByDistrictNameLikeIgnoreCase(district)
+        else if (state!=null && district!=null){
+            State requiredState = stateRepo.findByStateNameLikeIgnoreCase(state)
+                    .orElseThrow(()->new ItemNotFoundException("State: "+ state+" Not Found"));
+            District requiredDistrict = districtRepo.findByDistrictNameLikeIgnoreCaseAndState(district, requiredState)
                     .orElseThrow(()->new ItemNotFoundException("District: "+ district+" Not Found"));
             List<String> taluks = requiredDistrict.getTaluks();
             return taluks.stream().map((place)->
@@ -180,6 +186,9 @@ public class OrderService {
                                     .count(orderRepo.findAllByTaluk(place).stream().mapToInt(Order::getTotalPlants).sum())
                                     .build())
                     .toList();
+        }
+        else {
+            return null;
         }
     }
 
@@ -199,5 +208,14 @@ public class OrderService {
                                 .build()
                 )
                 .toList();
+    }
+
+    public long getTotalCount() {
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.group().sum("totalPlants").as("totalPlantsSum")
+        );
+        AggregationResults<SumResult> results = mongoTemplate.aggregate(aggregation, "orders", SumResult.class);
+        return results.getMappedResults().get(0).getTotalPlantsSum();
+
     }
 }

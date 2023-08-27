@@ -21,11 +21,15 @@ public class AddressService {
             State rcqdState = stateRepo.findByStateNameLikeIgnoreCase(state)
                     .orElseThrow(()->new ItemNotFoundException("State " + state + " Not Found"));
             return Places.builder().places(districtRepo.findAllByState(rcqdState).stream().map(District::getDistrictName).toList()).build();
-        }else{
-            District rcqdDistrict = districtRepo.findByDistrictNameLikeIgnoreCase(district)
+        }else if (district!=null && state!=null){
+            State rcqdState = stateRepo.findByStateNameLikeIgnoreCase(state)
+                    .orElseThrow(()->new ItemNotFoundException("State " + state + " Not Found"));
+            District rcqdDistrict = districtRepo.findByDistrictNameLikeIgnoreCaseAndState(district, rcqdState)
                     .orElseThrow(()-> new ItemNotFoundException("District " + district + " Not Found"));
             return Places.builder().places(rcqdDistrict.getTaluks()).build();
         }
-
+        else {
+            return null;
+        }
     }
 }

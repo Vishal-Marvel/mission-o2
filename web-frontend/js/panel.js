@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     const goToApprOrder = document.getElementById('apprOrder');
     const goToViewOrder = document.getElementById('viewOrder');
     const goToPlantOptions = document.getElementById('plantOptions');
+    const goTostateWise = document.getElementById('stateWise');
+
 
     await axios.get('http://localhost:8080/api/v1/orders/view-pending-orders', {
         headers :{
@@ -31,6 +33,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     goToPlantOptions.addEventListener('click', function(){
         window.location.href = 'plantOptions.html';
+    });
+    goTostateWise.addEventListener('click', function(){
+        window.location.href = 'analysis.html';
     });
     
 });

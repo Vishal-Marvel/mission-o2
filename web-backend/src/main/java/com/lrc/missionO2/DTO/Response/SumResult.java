@@ -1,2 +1,12 @@
-package com.lrc.missionO2.DTO.Response;public class SumResult {
+package com.lrc.missionO2.DTO.Response;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class SumResult {
+    private long totalPlantsSum;
 }
