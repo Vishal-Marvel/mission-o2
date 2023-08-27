@@ -20,15 +20,18 @@ document.addEventListener('DOMContentLoaded', function() {
           localStorage.setItem('Role', response.data.role);
           localStorage.setItem('Token',response.data.token);
 
-          alert('Login successful. User data stored in local storage.');
+          alert('Login successful');
           window.location.href = 'panel.html';
         } 
         else {
           alert('Invalid username or password.');
         }
       } catch (error) {
-        console.error('An error occurred:', error);
-        alert('An error occurred while attempting to login.');
+        if (error.response.data.message == "Bad Credentials"){
+        alert('Invalid Username and Password.');
+        }else{
+          console.log(error);
+        }
       }
     } else {
       alert('Please enter both username and password.');
