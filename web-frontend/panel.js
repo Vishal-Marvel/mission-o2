@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const goToAddPlant = document.getElementById('addPlant');
     const goToApprOrder = document.getElementById('apprOrder');
     const goToViewOrder = document.getElementById('viewOrder');
+    const goToPlantOptions = document.getElementById('plantOptions');
     const logoutButton = document.getElementById('logoutButton');
     
     goToAddPlant.addEventListener('click', function() {
@@ -14,6 +15,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     goToViewOrder.addEventListener('click', function() {
         window.location.href = 'viewOrders.html';
+    });
+    
+    goToPlantOptions.addEventListener('click', function(){
+        window.location.href = 'plantOptions.html';
     });
     
     logoutButton.addEventListener('click', function() {
