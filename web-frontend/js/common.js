@@ -15,8 +15,8 @@ await axios.get(`http://localhost:8080/api/v1/user/isActive/${token}`)
   }
 });
 if (logoutButton){
-logoutButton.addEventListener('click', function() {
-  // console.log('error2')
+    logoutButton.addEventListener('click', function() {
+    // console.log('error2')
     localStorage.clear();
     window.location.href = 'index.html';
 });

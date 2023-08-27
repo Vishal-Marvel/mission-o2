@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded',async function() {
     await axios.get('http://localhost:8080/api/v1/plant/view/all').then(response=>{
       products = response.data;
     })
-  
+
     products.forEach(product => {
       const plantElement = document.createElement('div');
       plantElement.classList.add('plant-panel');
@@ -27,21 +27,19 @@ document.addEventListener('DOMContentLoaded',async function() {
     const operationButtons = document.querySelectorAll('.plant-operation-button');
   
     operationButtons.forEach((operationButton, index) => {
+      index = Math.floor(index/2);
       let product = products[index];
       operationButton.addEventListener('click', async function(event) {
         const clickedButton = event.target;
-      
+        console.log(product);
         if (clickedButton.classList.contains('view-button')) {
-            window.location.href = `plantDetails.html?plant=${encodeURIComponent(product.id)}`;
-          
+            window.location.href = `plantDetails.html?plant=${encodeURIComponent(product.id)}`;  
         }
         else if (clickedButton.classList.contains('update-button')) {
-          // console.log(product)
             window.location.href = `plantUpdate.html?plant=${encodeURIComponent(product.id)}`;
           
         } else if (clickedButton.classList.contains('delete-button')) {
-          // console.log(product)
-          //detele operations here
+          console.log(product)
           await axios.delete(`http://localhost:8080/api/v1/plant/${product.id}`, {
             headers :{
               'Authorization': `Bearer ${token}`
