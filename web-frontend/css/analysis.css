@@ -19,6 +19,7 @@ body {
   .place-card {
     width: 80%;
     max-width: 750px;
+    max-height: 150px;
     border: 1px solid #ccc;
     padding: 20px;
     margin : 20px;
