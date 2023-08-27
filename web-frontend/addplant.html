@@ -3,6 +3,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Add Plant page</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <link rel="stylesheet" href="panel.css">
 </head>
 <body>
@@ -27,7 +28,7 @@
         <input type="text" id="plantName" required>
         
         <label for="plantPrice">Plant Price:</label>
-        <input type="number" id="plantPrice" required>
+        <input type="float" id="plantPrice" required>
         
         <label for="seedPrice">Seed Price:</label>
         <input type="number" id="seedPrice" required>
@@ -39,5 +40,6 @@
       </form>
     </div>
     <script src="addplant.js"></script>
+    <script src="logout.js"></script>
   </main>
 </body>

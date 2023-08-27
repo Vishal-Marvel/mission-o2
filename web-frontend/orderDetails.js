@@ -1,73 +1,73 @@
-document.addEventListener('DOMContentLoaded', function() {
-  if (window.location.pathname.endsWith('orderDetails.html')) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const productName = urlParams.get('product');
-    console.log(productName);
-  }
+const token = localStorage.getItem('Token'); 
+if (!token) {
+  window.location.href = 'login.html';
+} 
 
-  const orderData = {
-    user: {
-      name: 'John Doe',
-      address: '123 Main St',
-      district: 'Sample District',
-      taluk: 'Sample Taluk',
-      state: 'Sample State',
-      dateOfOrder: '2023-08-21',
-    },
-    plants: [
-      {
-        name: 'Sample Plant 1',
-        quantity: 5,
-        details: 'Lorem ipsum dolor sit amet...',
-      },
-      {
-        name: 'Sample Plant 2',
-        quantity: 3,
-        details: 'Lorem ipsum dolor sit amet...',
-      },
-    ],
-    location: {
-      googleMapsLink: 'https://maps.google.com',
-      locationImages: [
-        'https://via.placeholder.com/300',
-        'https://via.placeholder.com/300',
-        'https://via.placeholder.com/300',
-      ],
-    },
-  };
+document.addEventListener('DOMContentLoaded', async function() {
 
-  document.getElementById('userName').textContent = orderData.user.name;
-  document.getElementById('userAddress').textContent = orderData.user.address;
-  document.getElementById('userDistrict').textContent = orderData.user.district;
-  document.getElementById('userTaluk').textContent = orderData.user.taluk;
-  document.getElementById('userState').textContent = orderData.user.state;
-  document.getElementById('dateOfOrder').textContent = orderData.user.dateOfOrder;
+  const urlParams = new URLSearchParams(window.location.search);
+  const orderId = urlParams.get('order');
+  let orderData;
+  
+  await axios.get(`http://localhost:8080/api/v1/orders/view-order/${orderId}`, {
+    headers :{
+      'Authorization': `Bearer ${token}`
+    }
+  }).then(response=>{
+    orderData = response.data;
+  }).catch(error=>{
+    console.error(error);
+  })
+  console.log(orderData)
+
+
+  document.getElementById('userName').textContent = orderData.user;
+  // document.getElementById('userAddress').textContent = orderData.user.address;
+  document.getElementById('userDistrict').textContent = orderData.district;
+  document.getElementById('userTaluk').textContent = orderData.taluk;
+  document.getElementById('userState').textContent = orderData.state;
+  document.getElementById('dateOfOrder').textContent = orderData.orderDate;
 
   let n = 1;
   const plantDetailsContainer = document.getElementById('plantDetailsContainer');
-  orderData.plants.forEach(plant => {
+  orderData.products.forEach(async plant => {
+    let plantDetails;
+    await axios.get(`http://localhost:8080/api/v1/plant/`+plant.plantId)
+    .then(response=>{
+      plantDetails=response.data;})
+    .catch(error=>console.error(error.response.data));
+
+    console.log(plantDetails)
     const plantElement = document.createElement('div');
     plantElement.classList.add('plant-details');
     plantElement.innerHTML = `
       <h2>Plant-${n++}</h2>
-      <p><strong>Plant Name:</strong> ${plant.name}</p>
+      <p><strong>Plant Name:</strong> ${plantDetails.name}</p>
       <p><strong>Quantity:</strong> ${plant.quantity}</p>
-      <p><strong>Details:</strong> ${plant.details}</p>
+      <p><strong>Details:</strong> ${plant.type}</p>
     `;
     plantDetailsContainer.appendChild(plantElement);
   });
 
-  document.getElementById('googleMapsLink').href = orderData.location.googleMapsLink;
+  document.getElementById('googleMapsLink').href = orderData.locationURL;
   const locationImagesContainer = document.getElementById('locationImages');
-  orderData.location.locationImages.forEach(imageUrl => {
+  orderData.images.forEach(imageUrl => {
     const imgElement = document.createElement('img');
-    imgElement.src = imageUrl;
+    imgElement.src = "data:image/jpg;base64," + imageUrl;
     imgElement.alt = 'Location Image';
     locationImagesContainer.appendChild(imgElement);
   });
 
   const approveOrderButton = document.getElementById('approveOrderButton');
-  approveOrderButton.addEventListener('click', function() {
+  approveOrderButton.addEventListener('click',async function() {
+    await axios.post(`http://localhost:8080/api/v1/orders/status/${orderId}/APPROVED`, {}, {
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
+    })
+    .then(response=>{
+      plantDetails=response.data;})
+    .catch(error=>console.error(error.response.data));
     alert('Order Approved!');
   });
 });

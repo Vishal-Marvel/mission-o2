@@ -1,30 +1,38 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const productsContainer = document.getElementById('productsContainer');
-  
-  const products = [
-    { name: 'Product 1', price: 10.99, imageUrl: 'resources/product.png' },
-    { name: 'Product 2', price: 19.99, imageUrl: 'resources/product.png' },
-    { name: 'Product 3', price: 15.49, imageUrl: 'resources/product.png' },
-    { name: 'Product 4', price: 15.49, imageUrl: 'resources/product.png' },
-    { name: 'Product 5', price: 15.49, imageUrl: 'resources/product.png' },
-    { name: 'Product 6', price: 15.49, imageUrl: 'resources/product.png' },
-    { name: 'Product 7', price: 15.49, imageUrl: 'resources/product.png' },
-    // Add more products as needed
-  ];
+const token = localStorage.getItem('Token'); 
+if (!token) {
+  window.location.href = 'login.html';
+} 
 
-  products.forEach(product => {
+document.addEventListener('DOMContentLoaded', async function() {
+  const productsContainer = document.getElementById('productsContainer');
+  let orders;
+  await axios.get('http://localhost:8080/api/v1/orders/view-pending-orders', {
+    headers :{
+      'Authorization': `Bearer ${token}`
+    }
+  }).then(response=>{
+    orders = response.data;
+  }).catch(error=>{
+    console.error(error);
+  })
+
+  
+
+  orders.forEach(order => {
     const productElement = document.createElement('div');
     productElement.classList.add('product-panel');
     productElement.innerHTML = `
       <div class="product">
-        <img src="${product.imageUrl}" alt="${product.name}">
-        <div class="product-description">
-          <h3>${product.name}</h3>
-          <p class="price">$${product.price.toFixed(2)}</p>
+          <div class="product-description">
+          <h3>Order Number: ${order.orderNum}</h3>
+          <h4>Total Plant Ordered: ${order.totalPlant}</h4>
         </div>
+        <div class="product-description">
+        <h3>State: ${order.state}</h3>
+         <h4>Order Date: ${order.orderDate}</h4>
+      </div>
         <div class="product-actions">
           <button class="add-to-cart-button view-button">View Order</button>
-          <button class="add-to-cart-button">Approve Order</button>
         </div>
       </div>
     `;
@@ -33,10 +41,10 @@ document.addEventListener('DOMContentLoaded', function() {
   const viewButtons = document.querySelectorAll('.view-button');
 
   viewButtons.forEach((viewButton, index) => {
-    const product = products[index];
+    const order = orders[index];
 
     viewButton.addEventListener('click', function() {
-      window.location.href = `orderDetails.html?product=${encodeURIComponent(product.name)}`;
+      window.location.href = `orderDetails.html?order=${encodeURIComponent(order.id)}`;
     });
   });
 });

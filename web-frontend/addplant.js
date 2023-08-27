@@ -1,4 +1,4 @@
-  const token = sessionStorage.getItem('Token'); 
+  const token = localStorage.getItem('Token'); 
   if (!token) {
     window.location.href = 'login.html';
   } 
@@ -22,20 +22,20 @@ document.addEventListener('DOMContentLoaded', function() {
   
       // Append multiple image files
       for (const file of imageFiles) {
-        formData.append('images', file);
+        formData.append('image', file);
       }
   
       // Send FormData to server
       try {
-        const response = await fetch('server-upload-endpoint', {
-          method: 'POST',
-          body: formData
+        const response = await axios.post('http://localhost:8080/api/v1/plant/create/add', formData, {
+          headers :{
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`
+          }
         });
   
-        if (response.ok) {
-          const responseData = await response.json();
-          // Handle response data if needed
-          console.log(responseData);
+        if (response.status==200) {
+
           alert('Plant data and images uploaded successfully!');
           plantForm.reset();
         } else {
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error(error);
         alert('Error uploading plant data and images');
       } finally {
-        window.location.href = 'panel.html';
+        // window.location.href = 'panel.html';
       }
     });
   });
