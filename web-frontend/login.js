@@ -9,11 +9,32 @@ document.addEventListener('DOMContentLoaded', function() {
       const password = document.getElementById('password').value;
   
       if (username && password) {
-        localStorage.setItem('username', username);
-        localStorage.setItem('password', password);
+        axios.post("http://localhost:8080/api/v1/user/login-portal", {
+          email: username,
+          password: password,
+        })
+        .then(response=>{
+          sessionStorage.setItem('token', response.data.token);
+          if (response.data.role != "ROLE_ADMIN"){
+            alert('You are not allowed');
+          }
+          else{
+            alert('Login successful.');
+            window.location.href = 'panel.html';
+          }
+
+
+        })
+        .catch(error=>{
+          if(error.response.data.message == "Bad Credentials"){
+            alert("Incorrect User name or Password")
+          }
+          else{
+            alert(error.response.data.message)
+          }
+        });
+        // localStorage.setItem('password', password);
         
-        alert('Login successful. User data stored in local storage.');
-        window.location.href = 'panel.html';
       } else {
         alert('Please enter both username and password.');
       }
