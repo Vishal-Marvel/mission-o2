@@ -1,7 +1,3 @@
-  const token = localStorage.getItem('Token'); 
-  if (!token) {
-    window.location.href = 'login.html';
-  } 
 
 document.addEventListener('DOMContentLoaded', function() {
     const plantForm = document.getElementById('addPlantForm');
