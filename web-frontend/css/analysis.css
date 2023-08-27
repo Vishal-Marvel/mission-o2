@@ -1,20 +1,19 @@
 body {
+    width : 1550px;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 50px;
     display: flex;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh;
     background-color: #f0f0f0;
+    overflow: scroll;
   }
   
   .place-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 20px;
-    max-width: 800px;
-    padding: 20px;
+    max-width: 100%;
   }
   
   .place-card {
