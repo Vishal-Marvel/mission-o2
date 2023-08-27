@@ -13,7 +13,7 @@ public class Plant {
     @Id
     private String id = UUID.randomUUID().toString();
     private String name;
-    private String image;
+    private List<String> images;
     private Float seedPrice;
     private Float plantPrice;
 }

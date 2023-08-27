@@ -13,12 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
       // Store data in a FormData object
       const formData = new FormData();
       formData.append('name', plantName);
-      formData.append('price', parseFloat(plantPrice));
+      formData.append('plantPrice', parseFloat(plantPrice));
       formData.append('seedPrice', parseFloat(seedPrice));
   
       // Append multiple image files
       for (const file of imageFiles) {
-        formData.append('image', file);
+        formData.append('images', file);
       }
   
       // Send FormData to server
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       } catch (error) {
         console.error(error);
-        alert('Error uploading plant data and images');
+        alert(error.response.data.message);
       } finally {
         // window.location.href = 'panel.html';
       }

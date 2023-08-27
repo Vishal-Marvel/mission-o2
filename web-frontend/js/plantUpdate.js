@@ -1,40 +1,68 @@
-document.addEventListener('DOMContentLoaded', function() {
+function base64ToBlob(base64Data, contentType) {
+  const sliceSize = 1024;
+  const byteCharacters = atob(base64Data);
+  const byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+    const byteNumbers = new Array(slice.length);
+
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+
+  return new Blob(byteArrays, { type: contentType });
+}
+
+
+document.addEventListener('DOMContentLoaded',async function() {
     const updateForm = document.getElementById('updateForm');
     const plantNameInput = document.getElementById('plantName');
     const plantPriceInput = document.getElementById('plantPrice');
     const seedPriceInput = document.getElementById('seedPrice');
     const imagesInput = document.getElementById('images');
     const currentImagesContainer = document.getElementById('currentImagesContainer');
-  
+    const urlParams = new URLSearchParams(window.location.search);
+    const plantId = urlParams.get('plant');
     // Simulated prefilled data
-    const prefilledData = {
-      plantName: 'Sample Plant',
-      plantPrice: 10.99,
-      seedPrice: 5.99,
-      images: [
-        'https://via.placeholder.com/300',
-        'https://via.placeholder.com/300',
-        'https://via.placeholder.com/300',
-      ],
-    };
-  
+    // const prefilledData = {
+    //   plantName: 'Sample Plant',
+    //   plantPrice: 10.99,
+    //   seedPrice: 5.99,
+    //   images: [
+    //     'https://via.placeholder.com/300',
+    //     'https://via.placeholder.com/300',
+    //     'https://via.placeholder.com/300',
+    //   ],
+    // };
+    let plant;
+    await axios.get('http://localhost:8080/api/v1/plant/'+plantId).then(response=>{
+      plant = response.data;
+    })
+    console.log(plant)
     // Prefill form with data
-    plantNameInput.value = prefilledData.plantName;
-    plantPriceInput.value = prefilledData.plantPrice;
-    seedPriceInput.value = prefilledData.seedPrice;
+    plantNameInput.value = plant.name;
+    plantPriceInput.value = plant.plantPrice;
+    seedPriceInput.value = plant.seedPrice;
+    
   
     // Display current images
-    prefilledData.images.forEach(imageUrl => {
+    plant.images.forEach(imageUrl => {
       const imageContainer = document.createElement('div');
       imageContainer.classList.add('image-container');
       
       const image = document.createElement('img');
-      image.src = imageUrl;
-      image.alt = 'Image';
+      image.src = "data:image/jpg;base64,"+imageUrl;
+      image.alt = plant.name;
       
       const deleteButton = document.createElement('button');
       deleteButton.textContent = 'Delete';
       deleteButton.addEventListener('click', function() {
+        plant.images.pop(imageUrl);
         currentImagesContainer.removeChild(imageContainer);
       });
   
@@ -44,21 +72,43 @@ document.addEventListener('DOMContentLoaded', function() {
       currentImagesContainer.appendChild(imageContainer);
     });
   
-    updateForm.addEventListener('submit', function(event) {
+    updateForm.addEventListener('submit',async function(event) {
       event.preventDefault();
   
       // Retrieve updated data
       const updatedPlantName = plantNameInput.value;
       const updatedPlantPrice = parseFloat(plantPriceInput.value);
       const updatedSeedPrice = parseFloat(seedPriceInput.value);
-      // ... handle image uploads if needed ...
+      const newImages = imagesInput.files;
+
+      const formData = new FormData();
+      formData.append('name', updatedPlantName);
+      formData.append('plantPrice', parseFloat(updatedPlantPrice));
+      formData.append('seedPrice', parseFloat(updatedSeedPrice));
   
-      // Perform update operation (e.g., send to backend)
-      console.log('Updated Plant Name:', updatedPlantName);
-      console.log('Updated Plant Price:', updatedPlantPrice);
-      console.log('Updated Seed Price:', updatedSeedPrice);
+      // Append multiple image files
+      for (const file of newImages) {
+        formData.append('images', file);
+      }
+      plant.images.forEach(image=>{
+        formData.append('images', base64ToBlob(image, 'image/jpg'));
+      })
+      await axios.put('http://localhost:8080/api/v1/plant/'+plantId, formData, {
+          headers :{
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`
+          }
+        }).then(response=>{
+          if (response.status==200){
+            alert('Plant details updated successfully!');
+            window.location.reload();
+          }
+        }).catch(error=>{
+          alert (error.response.data.message)
+          console.error(error);
+        });
   
-      alert('Plant details updated successfully!');
+      
     });
   });
   

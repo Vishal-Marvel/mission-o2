@@ -70,7 +70,7 @@ public class UserController {
     public ResponseEntity<MiscResponse> isActive(@PathVariable String token){
         try{
             jwtTokenProvider.validateToken(token);
-            return ResponseEntity.badRequest().body(MiscResponse.builder().response("Active").build());
+            return ResponseEntity.ok().body(MiscResponse.builder().response("Active").build());
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(MiscResponse.builder().response("InActive").build());
