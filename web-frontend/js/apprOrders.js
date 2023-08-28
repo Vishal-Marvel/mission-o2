@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     loadingOverlay.style.display = 'none';
   }
   startLoading();
-  await axios.get('http://localhost:8080/api/v1/orders/view-pending-orders', {
+  await axios.get(`${APIURL}/orders/view-pending-orders`, {
     headers :{
       'Authorization': `Bearer ${token}`
     }

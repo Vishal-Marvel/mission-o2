@@ -1,11 +1,12 @@
 const logoutButton = document.getElementById('redirectButton')
 const token = localStorage.getItem('Token'); 
+const APIURL = "https://c689-2405-201-e030-ae44-10b1-d00a-2ead-dd7b.ngrok-free.app/api/v1"
 document.addEventListener('DOMContentLoaded', async function(){
 
 if (!token) {
   window.location.href = 'login.html';
 } 
-await axios.get(`http://localhost:8080/api/v1/user/isActive/${token}`)
+await axios.get(`${APIURL}/user/isActive/${token}`)
 
 .catch(error=>{
   if (error.message == "Network Error"){
