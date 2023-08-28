@@ -10,8 +10,8 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
-@Component
-@WebFilter("/*")  // Apply the filter to all requests
+//@Component
+//@WebFilter("/*")  // Apply the filter to all requests
 @Order(Ordered.HIGHEST_PRECEDENCE)  // Set the filter order
 public class CustomResponseHeadersFilter implements Filter {
 
