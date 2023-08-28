@@ -23,13 +23,14 @@ document.addEventListener('DOMContentLoaded', function() {
   
       // Send FormData to server
       try {
+        startLoading();
         const response = await axios.post('http://localhost:8080/api/v1/plant/create/add', formData, {
           headers :{
             'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${token}`
           }
         });
-  
+        stopLoading()
         if (response.status==200) {
 
           alert('Plant data and images uploaded successfully!');
