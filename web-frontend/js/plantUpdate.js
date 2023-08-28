@@ -94,7 +94,8 @@ document.addEventListener('DOMContentLoaded',async function() {
       plant.images.forEach(image=>{
         formData.append('images', base64ToBlob(image, 'image/jpg'));
       })
-      await axios.put(`${APIURL}/plant/${plantId}`, formData, {
+      startLoading();
+      await axios.put('http://localhost:8080/api/v1/plant/'+plantId, formData, {
           headers :{
             'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${token}`
@@ -108,8 +109,7 @@ document.addEventListener('DOMContentLoaded',async function() {
           alert (error.response.data.message)
           console.error(error);
         });
-  
+      stopLoading();
       
     });
   });
-  
