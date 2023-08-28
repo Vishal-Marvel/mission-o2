@@ -7,7 +7,17 @@ document.addEventListener('DOMContentLoaded', async function() {
     const goToPlantOptions = document.getElementById('plantOptions');
     const goTostateWise = document.getElementById('stateWise');
 
+    const loadingOverlay = document.getElementById('loadingOverlay');
 
+    function startLoading() {
+      loadingOverlay.style.display = 'flex';
+    }
+
+    function stopLoading() {
+      loadingOverlay.style.display = 'none';
+    }
+
+    startLoading();
     await axios.get('http://localhost:8080/api/v1/orders/view-pending-orders', {
         headers :{
           'Authorization': `Bearer ${token}`
@@ -17,6 +27,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }).catch(error=>{
         console.log(error);
     })
+    stopLoading();
     goToApprOrder.innerText += ` (${orders})`;
     
     goToAddPlant.addEventListener('click', function() {

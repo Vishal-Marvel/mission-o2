@@ -3,17 +3,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
   loginForm.addEventListener('submit', async function(event) {
     event.preventDefault();
+    const loadingOverlay = document.getElementById('loadingOverlay');
+
+    function startLoading() {
+      loadingOverlay.style.display = 'flex';
+    }
+
+    function stopLoading() {
+      loadingOverlay.style.display = 'none';
+    }
 
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
     if (username && password) {
       try {
+        startLoading();
         const response = await axios.post('http://localhost:8080/api/v1/user/login-portal', {
           email: username,
           password: password
         });
-
         const responseData = response.data;
 
         if (responseData.role=='ROLE_ADMIN') {
@@ -27,11 +36,14 @@ document.addEventListener('DOMContentLoaded', function() {
           alert('Invalid username or password.');
         }
       } catch (error) {
+        console.log(error.response)
         if (error.response.data.message == "Bad Credentials"){
         alert('Invalid Username and Password.');
         }else{
           console.log(error);
         }
+      }finally{
+        stopLoading();
       }
     } else {
       alert('Please enter both username and password.');

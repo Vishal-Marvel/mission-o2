@@ -1,7 +1,15 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     const plantForm = document.getElementById('addPlantForm');
-  
+    const loadingOverlay = document.getElementById('loadingOverlay');
+
+    function startLoading() {
+      loadingOverlay.style.display = 'flex';
+    }
+
+    function stopLoading() {
+      loadingOverlay.style.display = 'none';
+    }
     plantForm.addEventListener('submit', async function(event) {
       event.preventDefault();
   

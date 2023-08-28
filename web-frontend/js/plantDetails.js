@@ -4,6 +4,15 @@ document.addEventListener('DOMContentLoaded', function() {
       const plantId = urlParams.get('plant');
       console.log(plantId);
     }
+    const loadingOverlay = document.getElementById('loadingOverlay');
+
+    function startLoading() {
+      loadingOverlay.style.display = 'flex';
+    }
+
+    function stopLoading() {
+      loadingOverlay.style.display = 'none';
+    }
   
     const plantDetailsContainer = document.getElementById('plantDetailsContainer');
     const plantElement = document.createElement('div');

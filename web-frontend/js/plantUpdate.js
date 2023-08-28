@@ -40,9 +40,20 @@ document.addEventListener('DOMContentLoaded',async function() {
     //   ],
     // };
     let plant;
+    const loadingOverlay = document.getElementById('loadingOverlay');
+
+    function startLoading() {
+      loadingOverlay.style.display = 'flex';
+    }
+
+    function stopLoading() {
+      loadingOverlay.style.display = 'none';
+    }
+    startLoading();
     await axios.get('http://localhost:8080/api/v1/plant/'+plantId).then(response=>{
       plant = response.data;
     })
+    stopLoading();
     console.log(plant)
     // Prefill form with data
     plantNameInput.value = plant.name;
