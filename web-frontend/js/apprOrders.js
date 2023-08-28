@@ -2,6 +2,16 @@
 document.addEventListener('DOMContentLoaded', async function() {
   const productsContainer = document.getElementById('productsContainer');
   let orders;
+  const loadingOverlay = document.getElementById('loadingOverlay');
+
+  function startLoading() {
+    loadingOverlay.style.display = 'flex';
+  }
+
+  function stopLoading() {
+    loadingOverlay.style.display = 'none';
+  }
+  startLoading();
   await axios.get('http://localhost:8080/api/v1/orders/view-pending-orders', {
     headers :{
       'Authorization': `Bearer ${token}`
@@ -11,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   }).catch(error=>{
     console.error(error);
   })
-
+  stopLoading();
   
 
   orders.forEach(order => {

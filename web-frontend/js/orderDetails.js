@@ -5,7 +5,16 @@ document.addEventListener('DOMContentLoaded', async function() {
   const urlParams = new URLSearchParams(window.location.search);
   const orderId = urlParams.get('order');
   let orderData;
-  
+  const loadingOverlay = document.getElementById('loadingOverlay');
+
+  function startLoading() {
+    loadingOverlay.style.display = 'flex';
+  }
+
+  function stopLoading() {
+    loadingOverlay.style.display = 'none';
+  }
+  startLoading();
   await axios.get(`http://localhost:8080/api/v1/orders/view-order/${orderId}`, {
     headers :{
       'Authorization': `Bearer ${token}`
@@ -15,6 +24,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   }).catch(error=>{
     console.error(error);
   })
+  stopLoading();
   console.log(orderData)
 
 

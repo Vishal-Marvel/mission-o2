@@ -3,6 +3,15 @@ document.addEventListener('DOMContentLoaded',  async function(){
     const state = urlParams.get('state');
     const district = urlParams.get('district');
     let url = "";
+    const loadingOverlay = document.getElementById('loadingOverlay');
+
+    function startLoading() {
+      loadingOverlay.style.display = 'flex';
+    }
+
+    function stopLoading() {
+      loadingOverlay.style.display = 'none';
+    }
 let placeData;
 if (state){
     url += "?state=" + state;
@@ -10,6 +19,7 @@ if (state){
 if (district){
     url += "&district="+district;
 }
+startLoading();
 await axios.get('http://localhost:8080/api/v1/orders/view-count'+url, {
     headers:{
         Authorization: `Bearer ${token}`
@@ -18,7 +28,7 @@ await axios.get('http://localhost:8080/api/v1/orders/view-count'+url, {
     placeData = response.data
 })
 console.log(placeData);
-  
+stopLoading();
   const placeGrid = document.getElementById("placeGrid");
   
   placeData.forEach(placeObj => {

@@ -20,6 +20,15 @@ document.addEventListener('DOMContentLoaded', async function() {
     })
     counter.innerText = (10000008-count).toLocaleString();
 
+    function startLoading() {
+      loadingOverlay.style.display = 'flex';
+    }
+
+    function stopLoading() {
+      loadingOverlay.style.display = 'none';
+    }
+
+    startLoading();
     await axios.get('http://localhost:8080/api/v1/orders/view-pending-orders', {
         headers :{
           'Authorization': `Bearer ${token}`
@@ -29,6 +38,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }).catch(error=>{
         console.log(error);
     })
+    stopLoading();
     goToApprOrder.innerText += ` (${orders})`;
     
     goToAddPlant.addEventListener('click', function() {

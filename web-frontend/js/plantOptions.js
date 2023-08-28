@@ -1,10 +1,20 @@
 document.addEventListener('DOMContentLoaded',async function() {
     const productsContainer = document.getElementById('plantContainer');
     let products;
+    const loadingOverlay = document.getElementById('loadingOverlay');
+
+    function startLoading() {
+      loadingOverlay.style.display = 'flex';
+    }
+
+    function stopLoading() {
+      loadingOverlay.style.display = 'none';
+    }
+    startLoading();
     await axios.get('http://localhost:8080/api/v1/plant/view/all').then(response=>{
       products = response.data;
     })
-
+    stopLoading();
     products.forEach(product => {
       const plantElement = document.createElement('div');
       plantElement.classList.add('plant-panel');

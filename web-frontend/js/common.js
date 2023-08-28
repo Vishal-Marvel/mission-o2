@@ -2,9 +2,9 @@ const logoutButton = document.getElementById('redirectButton')
 const token = localStorage.getItem('Token'); 
 document.addEventListener('DOMContentLoaded', async function(){
 
-  if (!token) {
-    window.location.href = 'login.html';
-  } 
+if (!token) {
+  window.location.href = 'login.html';
+} 
 await axios.get(`http://localhost:8080/api/v1/user/isActive/${token}`)
 
 .catch(error=>{

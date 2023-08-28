@@ -1,7 +1,15 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     const plantForm = document.getElementById('addPlantForm');
-  
+    const loadingOverlay = document.getElementById('loadingOverlay');
+
+    function startLoading() {
+      loadingOverlay.style.display = 'flex';
+    }
+
+    function stopLoading() {
+      loadingOverlay.style.display = 'none';
+    }
     plantForm.addEventListener('submit', async function(event) {
       event.preventDefault();
   
@@ -23,13 +31,14 @@ document.addEventListener('DOMContentLoaded', function() {
   
       // Send FormData to server
       try {
+        startLoading();
         const response = await axios.post('http://localhost:8080/api/v1/plant/create/add', formData, {
           headers :{
             'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${token}`
           }
         });
-  
+        stopLoading()
         if (response.status==200) {
 
           alert('Plant data and images uploaded successfully!');
