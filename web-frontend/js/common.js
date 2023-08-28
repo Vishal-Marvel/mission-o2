@@ -8,6 +8,10 @@ if (!token) {
 await axios.get(`http://localhost:8080/api/v1/user/isActive/${token}`)
 
 .catch(error=>{
+  if (error.message == "Network Error"){
+    alert("Cant connect To Server")
+    window.location.href = 'index.html';
+  }
   if (error.response.status==400){
     // console.log('error1')
     localStorage.clear();
@@ -21,4 +25,5 @@ if (logoutButton){
     window.location.href = 'index.html';
 });
 }
+
 })
