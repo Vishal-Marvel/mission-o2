@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   const plantDetailsContainer = document.getElementById('plantDetailsContainer');
   orderData.products.forEach(async plant => {
     let plantDetails;
-    await axios.get(`${APIURL}/plant/`+plant.plantId)
+    await axios.get(`${APIURL}/plant/${plant.plantId}`)
     .then(response=>{
       plantDetails=response.data;})
     .catch(error=>console.error(error.response.data));
