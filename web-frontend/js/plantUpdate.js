@@ -104,6 +104,7 @@ document.addEventListener('DOMContentLoaded',async function() {
       plant.images.forEach(image=>{
         formData.append('images', base64ToBlob(image, 'image/jpg'));
       })
+      startLoading();
       await axios.put('http://localhost:8080/api/v1/plant/'+plantId, formData, {
           headers :{
             'Content-Type': 'multipart/form-data',
@@ -118,7 +119,7 @@ document.addEventListener('DOMContentLoaded',async function() {
           alert (error.response.data.message)
           console.error(error);
         });
-  
+      stopLoading();
       
     });
   });
