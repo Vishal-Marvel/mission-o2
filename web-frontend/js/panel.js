@@ -1,12 +1,24 @@
 
 document.addEventListener('DOMContentLoaded', async function() {
-    let orders;
+    let orders, count;
+
     const goToAddPlant = document.getElementById('addPlant');
+    const counter = document.getElementById('count');
     const goToApprOrder = document.getElementById('apprOrder');
     const goToViewOrder = document.getElementById('viewOrder');
     const goToPlantOptions = document.getElementById('plantOptions');
     const goTostateWise = document.getElementById('stateWise');
 
+    await axios.get('http://localhost:8080/api/v1/orders/total-plants', {
+        headers :{
+          'Authorization': `Bearer ${token}`
+        }
+    }).then(response=>{
+        count = response.data.response;
+    }).catch(error=>{
+        console.log(error);
+    })
+    counter.innerText = (10000008-count).toLocaleString();
 
     await axios.get('http://localhost:8080/api/v1/orders/view-pending-orders', {
         headers :{
