@@ -18,10 +18,9 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("*"); // Replace with your frontend URL
+        config.addAllowedOrigin("http://5a6d-2405-201-e030-ae44-10b1-d00a-2ead-dd7b.ngrok-free.app");
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
-//        config.setAllowCredentials(true);
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
