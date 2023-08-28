@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     loadingOverlay.style.display = 'none';
   }
   startLoading();
-  await axios.get(`http://localhost:8080/api/v1/orders/view-order/${orderId}`, {
+  await axios.get(`${APIURL}/orders/view-order/${orderId}`, {
     headers :{
       'Authorization': `Bearer ${token}`
     }
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   const plantDetailsContainer = document.getElementById('plantDetailsContainer');
   orderData.products.forEach(async plant => {
     let plantDetails;
-    await axios.get(`http://localhost:8080/api/v1/plant/`+plant.plantId)
+    await axios.get(`${APIURL}/plant/`+plant.plantId)
     .then(response=>{
       plantDetails=response.data;})
     .catch(error=>console.error(error.response.data));
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   const approveOrderButton = document.getElementById('approveOrderButton');
   approveOrderButton.addEventListener('click',async function() {
-    await axios.post(`http://localhost:8080/api/v1/orders/status/${orderId}/APPROVED`, {}, {
+    await axios.post(`${APIURL}/orders/status/${orderId}/APPROVED`, {}, {
       headers:{
         Authorization: `Bearer ${token}`
       }
@@ -76,5 +76,6 @@ document.addEventListener('DOMContentLoaded', async function() {
       plantDetails=response.data;})
     .catch(error=>console.error(error.response.data));
     alert('Order Approved!');
+    window.location.href="panel.html"
   });
 });

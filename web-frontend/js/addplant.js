@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Send FormData to server
       try {
         startLoading();
-        const response = await axios.post('http://localhost:8080/api/v1/plant/create/add', formData, {
+        const response = await axios.post(`${APIURL}/plant/create/add`, formData, {
           headers :{
             'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${token}`

@@ -28,17 +28,7 @@ document.addEventListener('DOMContentLoaded',async function() {
     const currentImagesContainer = document.getElementById('currentImagesContainer');
     const urlParams = new URLSearchParams(window.location.search);
     const plantId = urlParams.get('plant');
-    // Simulated prefilled data
-    // const prefilledData = {
-    //   plantName: 'Sample Plant',
-    //   plantPrice: 10.99,
-    //   seedPrice: 5.99,
-    //   images: [
-    //     'https://via.placeholder.com/300',
-    //     'https://via.placeholder.com/300',
-    //     'https://via.placeholder.com/300',
-    //   ],
-    // };
+
     let plant;
     const loadingOverlay = document.getElementById('loadingOverlay');
 
@@ -50,7 +40,7 @@ document.addEventListener('DOMContentLoaded',async function() {
       loadingOverlay.style.display = 'none';
     }
     startLoading();
-    await axios.get('http://localhost:8080/api/v1/plant/'+plantId).then(response=>{
+    await axios.get( `${APIURL}/plant/${plantId}`).then(response=>{
       plant = response.data;
     })
     stopLoading();
@@ -104,7 +94,7 @@ document.addEventListener('DOMContentLoaded',async function() {
       plant.images.forEach(image=>{
         formData.append('images', base64ToBlob(image, 'image/jpg'));
       })
-      await axios.put('http://localhost:8080/api/v1/plant/'+plantId, formData, {
+      await axios.put(`${APIURL}/plant/${plantId}`, formData, {
           headers :{
             'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${token}`

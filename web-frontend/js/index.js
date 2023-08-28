@@ -13,7 +13,7 @@ adminPanelButton.addEventListener('click', function() {
 let count;
 const counter = document.getElementById('count');
 
-await axios.get('http://localhost:8080/api/v1/orders/total-plants')
+await axios.get(`${APIURL}/orders/total-plants`)
     .then(response=>{
         count = response.data.response;
     }).catch(error=>{

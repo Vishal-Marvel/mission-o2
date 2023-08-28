@@ -20,7 +20,7 @@ if (district){
     url += "&district="+district;
 }
 startLoading();
-await axios.get('http://localhost:8080/api/v1/orders/view-count'+url, {
+await axios.get(`${APIURL}/orders/view-count${url}`, {
     headers:{
         Authorization: `Bearer ${token}`
     }
@@ -80,12 +80,8 @@ stopLoading();
       window.location.href = "analysis.html" + subUrl;
     });
 
-    }
-    
-
-  
+    }    
     placeGrid.appendChild(placeCard);
-  
-    
+      
   });
 });

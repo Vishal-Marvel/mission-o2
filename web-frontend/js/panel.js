@@ -9,17 +9,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     const goToPlantOptions = document.getElementById('plantOptions');
     const goTostateWise = document.getElementById('stateWise');
 
-    await axios.get('http://localhost:8080/api/v1/orders/total-plants', {
-        headers :{
-          'Authorization': `Bearer ${token}`
-        }
-    }).then(response=>{
-        count = response.data.response;
-    }).catch(error=>{
-        console.log(error);
-    })
-    counter.innerText = (10000008-count).toLocaleString();
-
     function startLoading() {
       loadingOverlay.style.display = 'flex';
     }
@@ -29,7 +18,17 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     startLoading();
-    await axios.get('http://localhost:8080/api/v1/orders/view-pending-orders', {
+    await axios.get(`${APIURL}/orders/total-plants`, {
+        headers :{
+          'Authorization': `Bearer ${token}`
+        }
+    }).then(response=>{
+        count = response.data.response;
+    }).catch(error=>{
+        console.log(error);
+    })
+    counter.innerText = (10000008-count).toLocaleString();
+    await axios.get(`${APIURL}/orders/view-pending-orders`, {
         headers :{
           'Authorization': `Bearer ${token}`
         }
@@ -38,9 +37,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     }).catch(error=>{
         console.log(error);
     })
-    stopLoading();
-    goToApprOrder.innerText += ` (${orders})`;
     
+    goToApprOrder.innerText += ` (${orders})`;
+    stopLoading();
     goToAddPlant.addEventListener('click', function() {
           window.location.href = 'addplant.html';
     });

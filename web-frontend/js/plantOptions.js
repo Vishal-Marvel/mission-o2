@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded',async function() {
       loadingOverlay.style.display = 'none';
     }
     startLoading();
-    await axios.get('http://localhost:8080/api/v1/plant/view/all').then(response=>{
+    await axios.get(`${APIURL}/plant/view/all`).then(response=>{
       products = response.data;
     })
     stopLoading();
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded',async function() {
           
         } else if (clickedButton.classList.contains('delete-button')) {
           console.log(product)
-          await axios.delete(`http://localhost:8080/api/v1/plant/${product.id}`, {
+          await axios.delete(`${APIURL}/plant/${product.id}`, {
             headers :{
               'Authorization': `Bearer ${token}`
             }

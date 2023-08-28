@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (username && password) {
       try {
         startLoading();
-        const response = await axios.post('http://localhost:8080/api/v1/user/login-portal', {
+        const response = await axios.post(`${APIURL}/user/login-portal`, {
           email: username,
           password: password
         });
