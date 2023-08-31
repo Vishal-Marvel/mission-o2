@@ -13,9 +13,7 @@ adminPanelButton.addEventListener('click', function() {
 let count;
 const counter = document.getElementById('count');
 
-await axios.get(`${APIURL}/orders/total-plants`,{
-    headers: {"Access-Control-Allow-Origin": "*"}
-})
+await axios.get(`${APIURL}/orders/total-plants`)
     .then(response=>{
         count = response.data.response;
     }).catch(error=>{

@@ -27,12 +27,12 @@ await axios.get(`${APIURL}/orders/view-count${url}`, {
 }).then(response=>{
     placeData = response.data
 })
-console.log(placeData);
+// console.log(placeData);
 stopLoading();
   const placeGrid = document.getElementById("placeGrid");
   
   placeData.forEach(placeObj => {
-    const place = placeObj.place;
+    const place = placeObj._id;
     const count = placeObj.count;
     const placeCard = document.createElement("div");
     placeCard.classList.add("place-card");

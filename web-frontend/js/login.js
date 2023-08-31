@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
   const loginForm = document.getElementById('loginForm');
+  if (token){
+    window.location.href = 'panel.html';
+  }
 
   loginForm.addEventListener('submit', async function(event) {
     event.preventDefault();
@@ -26,8 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const responseData = response.data;
 
         if (responseData.role=='ROLE_ADMIN') {
-          localStorage.setItem('Role', response.data.role);
-          localStorage.setItem('Token',response.data.token);
+          sessionStorage.setItem('Role', response.data.role);
+          sessionStorage.setItem('Token',response.data.token);
 
           alert('Login successful');
           window.location.href = 'panel.html';
