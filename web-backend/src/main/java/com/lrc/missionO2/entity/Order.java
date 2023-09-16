@@ -12,7 +12,7 @@ public class Order {
 
     @Id
     private String id = UUID.randomUUID().toString();
-    private String orderNum = UUID.randomUUID().toString().substring(0, 7);
+    private String orderNum;
     private String user;
     private Date orderDate;
     private String orderStatus;
@@ -20,8 +20,11 @@ public class Order {
     private String district;
     private String taluk;
     private String state;
+    private Address address;
     private List<String> images = new ArrayList<>();
+    private List<String> postImages = new ArrayList<>();
     private List<OrderProduct> products = new ArrayList<>();
     private Double totalPrice;
     private Integer totalPlants;
+    private String approvedBy;
 }

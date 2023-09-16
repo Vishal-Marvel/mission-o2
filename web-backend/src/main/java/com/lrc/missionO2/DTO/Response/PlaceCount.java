@@ -7,6 +7,6 @@ import lombok.Data;
 @Data
 @Builder
 public class PlaceCount {
-    private String place;
+    private String _id;
     private Integer count;
 }

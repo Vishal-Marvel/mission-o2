@@ -1,22 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>State Viewer</title>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js?v=1.0"></script>
 
+    <link rel="stylesheet" href="css/analysis.css?v=1.0" />
+    <link rel="stylesheet" href="css/header.css?v=1.0" />
 
-  <link rel="stylesheet" href="css/analysis.css">
-</head>
-<body>
-  <div class="place-grid" id="placeGrid">
-    <!-- States will be dynamically added here -->
-  </div>
-  <div class="loading-overlay" id="loadingOverlay">
-    <div class="loading-spinner"></div>
-  </div>
-  <script src="js/analysis.js"></script>
-  <script src="js/common.js"></script>
-</body>
+    <link rel="icon" href="resources/Mission-O2-Logo-1.png" />
+  </head>
+  <body>
+    <header>
+      <div class="logo-container">
+        <img
+          src="resources/Final-LRC-LOGO.png"
+          style="width: 300px"
+          alt="Logo 1"
+        />
+        <!--        <img  src="resources/Mission-O2-Logo-1.png" alt="Logo 2" />-->
+        <img
+          style="
+            /*-webkit-filter: drop-shadow(10px 10px 10px #fff);
+                      filter: drop-shadow(-2px 2px 4px #fff);*/
+            background-color: #edfdf5;
+            border-radius: 20px;
+            padding-bottom: 3px;
+          "
+          src="resources/Mission-O2-Logo-1.png"
+          alt="Logo 2"
+        />
+      </div>
+      <div class="user-container">
+        <button id="panel" class="login-button">Back</button>
+      </div>
+    </header>
+    <div class="description">
+      Currently :
+      <a href="analysis.html" style="padding-left: 10px">INDIA</a>
+    </div>
+    <input
+      type="text"
+      class="searchInput"
+      id="searchInput"
+      placeholder="Search State..."
+    />
+
+    <main>
+      <div class="place-grid" id="placeGrid">
+        <!-- States will be dynamically added here -->
+      </div>
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+      </div>
+    </main>
+
+    <script src="js/analysis.js?v=1.0"></script>
+    <script src="js/common.js?v=1.0"></script>
+  </body>
 </html>

@@ -1,0 +1,92 @@
+/* FOR ADD PLANT PAGE */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+  overflow:hidden;
+}
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+
+.addPlant-form-container {
+  background-color: #d4eed0;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 600px;
+  width: 100%;
+  margin-bottom: 60px;
+}
+
+.addPlant-form-container label {
+  font-weight: bold;
+  margin-top: 10px;
+  display: block;
+}
+
+.addPlant-form-container input,
+button {
+  margin-top: 5px;
+  padding: 8px;
+  width: 95%;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 14px;
+}
+.addPlant-form-container input:focus {
+  outline: none;
+  border: 3px solid #03a678;
+}
+
+.addPlant-form-container button {
+  max-width: 100px;
+  margin-top: 20px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addPlant-form-container button:hover {
+  background-color: #2980b9;
+}
+
+/* Hide the default file input styles */
+input[type="file"] {
+  padding: 8px;
+  background-color: #f5f5f5;
+  margin-top: 15px;
+  border: 1px solid #ccc;
+
+}
+
+/* Style the custom file input container */
+.addPlant-form-container .custom-file-input {
+  background-color: #f5f5f5;
+  margin-top: 15px;
+  padding: 8px;
+  width: 95%;
+  border: 1px solid #ccc;
+  color: #333;
+  padding: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* Style the custom file input button */
+.custom-file-input-label {
+  font-weight: bold;
+}
+
+/* Style for when the file input is active (clicked) */
+input[type="file"]:focus + .custom-file-input {
+  border-color: #007bff;
+}

@@ -1,0 +1,11 @@
+server:
+  ssl:
+    key-store: springboot.p12
+    key-store-password: password
+    key-store-type: pkcs12
+    key-alias: springboot
+    key-password: password
+    enabled: true
+    certificate-private-key: privkey.pem
+    certificate: fullchain.pem
+  port: 8080

@@ -1,47 +1,144 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel Page</title>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <link rel="stylesheet" href="css/panel.css">
-</head>
-<body>
-  <header>
-    <div class="logo-container">
-      <img src="resources/Final-LRC-LOGO-1.png" style="width:60px;" alt="Logo 1">
-      <img src="resources/Mission-O2-Logo-1.png" alt="Logo 2">
-    </div>
-    <div class="user-container">
-      <button class="login-button" id="redirectButton">Logout</button>
-      <img src="resources/user-icon.jpeg" alt="User Icon" class="user-icon">
-    </div>
-  </header>
-  <main>
-    <div class = "intro-part">
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js?v=1.0"></script>
+
+    <link rel="stylesheet" href="css/panel.css?v=1.0" />
+    <link rel="stylesheet" href="css/header.css?v=1.0" />
+    <link rel="icon" href="resources/Mission-O2-Logo-1.png" />
+  </head>
+  <body>
+    <header>
+      <div class="logo-container">
+        <img
+          src="resources/Final-LRC-LOGO.png"
+          style="width: 300px"
+          alt="Logo 1"
+        />
+        <!--        <img  src="resources/Mission-O2-Logo-1.png" alt="Logo 2" />-->
+        <img
+          style="
+            /*-webkit-filter: drop-shadow(10px 10px 10px #fff);
+                      filter: drop-shadow(-2px 2px 4px #fff);*/
+            background-color: #edfdf5;
+            border-radius: 20px;
+            padding-bottom: 3px;
+          "
+          src="resources/Mission-O2-Logo-1.png"
+          alt="Logo 2"
+        />
+      </div>
+      <div class="user-container">
+        <button id="redirectButton" class="login-button">Logout</button>
+      </div>
+    </header>
+    <main>
+      <div class="intro-part">
         <span>
-            <div class="main-banner">
-              <div class="content">
-                <p id="count" style="font:sans; font-size: 40px; color: white; margin-top : 4px; margin-bottom : 5px; font-weight: bold;">0</p>
-                <!-- <p style="font:sans; font-size: 25px; color: white; margin-top: 0px ;font-weight: bold">more remain..</p> -->
-              </div>
+          <div class="main-banner">
+            <div class="content">
+              <p id="count" class="counter">10,000,008</p>
+              <p
+                style="
+                  font: sans;
+                  font-size: 25px;
+                  margin-top: 0px;
+                  font-weight: bold;
+                "
+              >
+                more remain..
+              </p>
             </div>
+          </div>
         </span>
-        <p style="font:sans; font-size: 40px; color: #1d617a; margin:5px ;font-weight: bold;">Admin Panel</p>
-    </div>
-    <div class="operation-part">
-        <button class="panel-button" id="addPlant" style="font-size: 20px; font-weight: bold;">Add plant</button>
-        <button class="panel-button" id="apprOrder" style="font-size: 20px; font-weight: bold;">Approve Pending orders </button>
-        <button class="panel-button" id="viewOrder" style="font-size: 20px; font-weight: bold;">View/Search Orders</button>
-        <button class="panel-button" id="plantOptions" style="font-size: 20px; font-weight: bold;">View Plants</button>
-        <button class="panel-button" id="stateWise" style="font-size: 20px; font-weight: bold;">State Wise Analysis</button>
-    </div>
-    <div class="loading-overlay" id="loadingOverlay">
-      <div class="loading-spinner"></div>
-    </div>
-  </main>
-  <script src="js/common.js"></script>
+        <!-- <p style="font:sans; font-size: 40px; color: #1d617a; margin:5px ;font-weight: bold;">Admin Panel</p> -->
+      </div>
 
-  <script src="js/panel.js"></script>
+      <div class="operation-part">
+        <button
+          class="panel-button"
+          id="addPlant"
+          style="font-size: 20px; font-weight: bold"
+        >
+          Add plant
+        </button>
+        <button
+          class="panel-button"
+          id="plantOptions"
+          style="font-size: 20px; font-weight: bold"
+        >
+          View Plants
+        </button>
+        <button
+          class="panel-button"
+          id="apprOrder"
+          style="font-size: 20px; font-weight: bold"
+        >
+          Approve Pending orders
+        </button>
+        <button
+          class="panel-button"
+          id="viewOrder"
+          style="font-size: 20px; font-weight: bold"
+        >
+          View All Orders
+        </button>
+        <!--      </div>-->
+        <!--      <div class="operation-part">-->
+        <button
+          class="panel-button"
+          id="stateWise"
+          style="font-size: 20px; font-weight: bold"
+        >
+          Analysis
+        </button>
 
-</body>
+        <button
+          class="panel-button"
+          id="userProfile"
+          style="font-size: 20px; font-weight: bold"
+        >
+          View Customers
+        </button>
+        <button
+          class="panel-button"
+          id="createUser"
+          style="font-size: 20px; font-weight: bold"
+        >
+          Create Admin User
+        </button>
+        <button
+          class="panel-button"
+          id="viewAdmin"
+          style="font-size: 20px; font-weight: bold"
+        >
+          View Admin Users
+        </button>
+        <button
+          class="panel-button"
+          id="msgBalance"
+          style="font-size: 20px; font-weight: bold"
+        >
+          Message Balance
+        </button>
+      </div>
+      <div class="popup" id="popup">
+        <div class="popup-content">
+          <div class="close-button" id="closePopup">&times;</div>
+          <h2>Balance Messages</h2>
+          <p id="msgContent"></p>
+        </div>
+      </div>
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+      </div>
+    </main>
+    <script src="js/common.js?v=1.0"></script>
+
+    <script src="js/panel.js?v=1.0"></script>
+  </body>
+</html>

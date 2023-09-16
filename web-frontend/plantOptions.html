@@ -1,47 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js?v=1.0"></script>
 
-  <title>Plant Options</title>
-  <link rel="stylesheet" href="css/panel.css">
-</head>
-<body>
-  <header>
-    <div class="logo-container">
-      <img src="resources/Final-LRC-LOGO-1.png" style="width:60px;" alt="Logo 1">
-      <img src="resources/Mission-O2-Logo-1.png" alt="Logo 2">
-    </div>
-    <div class="user-container">
-      <button id="redirectButton" class="login-button">Logout</button>
-      <img src="resources/user-icon.jpeg" alt="User Icon" class="user-icon">
-    </div>
-  </header>
-  <main style="display : flex ; flex-direction :column ; align-items: center;">
-    <div class = "intro-part">
-        <p style="font:sans; font-size: 40px; color: #1d617a; margin:5px ;font-weight: bold;">Plant Options</p>
-    </div>
-    <div class = "plant-panel-container">
-        <div class="plant-panel" id="plantContainer">
-          <!-- <div class="product">
-            <img src="resources/user-icon.jpeg" alt="Product 1">
-            <div class = "product-description">
-              <h3>Product Name</h3>
-              <p class="price">$19.99</p>
-              <button class="add-to-cart-button">Add to Cart</button>
-            </div>
-          </div> -->
-          <!-- Add more product divs here -->
+    <title>Plants</title>
+    <link rel="stylesheet" href="css/plantOptions.css?v=1.0" />
+    <link rel="stylesheet" href="css/header.css?v=1.0" />
+
+    <link rel="icon" href="resources/Mission-O2-Logo-1.png" />
+  </head>
+  <body>
+    <header>
+      <div class="logo-container">
+        <img
+          src="resources/Final-LRC-LOGO.png"
+          style="width: 300px"
+          alt="Logo 1"
+        />
+        <!--        <img  src="resources/Mission-O2-Logo-1.png" alt="Logo 2" />-->
+        <img
+          style="
+            /*-webkit-filter: drop-shadow(10px 10px 10px #fff);
+                      filter: drop-shadow(-2px 2px 4px #fff);*/
+            background-color: #edfdf5;
+            border-radius: 20px;
+            padding-bottom: 3px;
+          "
+          src="resources/Mission-O2-Logo-1.png"
+          alt="Logo 2"
+        />
+      </div>
+      <div class="user-container">
+        <button id="panel" class="login-button">Back</button>
+      </div>
+    </header>
+    <main style="display: flex; flex-direction: column; align-items: center">
+      <div class="intro-part">
+        <p
+          style="
+            font: sans;
+            font-size: 40px;
+            color: #1d617a;
+            margin: 20px;
+            font-weight: bold;
+          "
+        >
+          Plants
+        </p>
+      </div>
+
+      <table id="plantTable">
+        <thead>
+          <tr>
+            <th>Plant Name</th>
+            <th>Seed Price</th>
+            <th>Plant Price</th>
+            <th>Update</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- Data rows will be dynamically added here -->
+        </tbody>
+      </table>
+      <div class="pagination">
+        <label style="font-size: 20px; font-weight: bold"
+          >Number of records in this page :</label
+        >
+        <input
+          type="text"
+          id="dataPerPage"
+          placeholder="Data per Page"
+          value="5"
+        />
+      </div>
+      <div class="pagination">
+        <button id="prevBtn">Previous</button>
+        <label style="font-size: 20px; font-weight: bold">Page no. :</label>
+        <input type="text" id="currentPage" placeholder="Page No." value="1" />
+        of
+        <span id="totalPage"></span>
+        <button id="nextBtn">Next</button>
+      </div>
+      <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+          <h2>Are you sure you want to delete?</h2>
+          <button id="confirmDelete" class="delete-button">Delete</button>
+          <button id="cancelDelete" class="cancel-button">Cancel</button>
         </div>
       </div>
       <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
       </div>
-      <script src="js/plantOptions.js"></script>
-      <script src="js/common.js"></script>
-
+      <script src="js/plantOptions.js?v=1.0"></script>
+      <script src="js/common.js?v=1.0"></script>
     </main>
   </body>
 </html>

@@ -1,52 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Order Details</title>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js?v=1.0"></script>
 
-  <link rel="stylesheet" href="css/orderDetails.css">
+  <link rel="stylesheet" href="css/orderDetails.css?v=1.0" />
+  <link rel="stylesheet" href="css/header.css?v=1.0" />
+  <link rel="icon" href="resources/Mission-O2-Logo-1.png" />
 </head>
 <body>
-  <div class="order-details-container">
-    <div class="user-details">
-      <h2>User Details</h2>
-      <p><strong>Name:</strong> <span id="userName"></span></p>
-      <p><strong>Address:</strong> <span id="userAddress"></span></p>
-      <p><strong>District:</strong> <span id="userDistrict"></span></p>
-      <p><strong>Taluk:</strong> <span id="userTaluk"></span></p>
-      <p><strong>State:</strong> <span id="userState"></span></p>
-      <p><strong>Date of Order:</strong> <span id="dateOfOrder"></span></p>
-    </div>
-    <br>
-    <br>
+<header>
+  <div class="logo-container">
+    <img
+            src="resources/Final-LRC-LOGO.png"
+            style="width: 300px"
+            alt="Logo 1"
+    />
+    <!--        <img  src="resources/Mission-O2-Logo-1.png" alt="Logo 2" />-->
+    <img
+            style="
+            /*-webkit-filter: drop-shadow(10px 10px 10px #fff);
+                      filter: drop-shadow(-2px 2px 4px #fff);*/
+            background-color: #edfdf5;
+            border-radius: 20px;
+            padding-bottom: 3px;
+          "
+            src="resources/Mission-O2-Logo-1.png"
+            alt="Logo 2"
+    />
+  </div>
+  <div class="user-container">
+    <button id="panel" class="login-button">Back</button>
+  </div>
+</header>
+<!--<div class="intro-part">-->
+<!--  <p-->
+<!--          style="-->
+<!--            font: sans;-->
+<!--            font-size: 40px;-->
+<!--            color: #1d617a;-->
+<!--            margin: 20px 0 0 20px;-->
 
-    <div id="plantDetailsContainer">
-      <div class="plant-details">
-        <h2>Plant Details</h2>
-        <!-- <p><strong>Plant Name:</strong> <span id="plantName"></span></p>
-        <p><strong>Quantity:</strong> <span id="plantQuantity"></span></p>
-        <p><strong>Details:</strong> <span id="plantDetails"></span></p> -->
+<!--            font-weight: bold;-->
+<!--          "-->
+<!--  >-->
+<!--    Order Details-->
+<!--  </p>-->
+<!--</div>-->
+<div class="order-details-container">
+  <div class="user-details" id="userDetailsContainer" >
+    <h2>Order Details</h2>
+    <p><strong>Order Num: </strong> <span id="orderID"></span></p>
+    <p><strong>User Name:</strong> <span id="userName"></span></p>
+    <p><strong>Delivery Address:</strong> <br> <span id="userAddress"></span></p>
+
+    <p><strong>District:</strong> <span id="userDistrict"></span></p>
+    <p><strong>Taluk:</strong> <span id="userTaluk"></span></p>
+    <p><strong>State:</strong> <span id="userState"></span></p>
+    <p><strong>Status: </strong> <span id="status"></span></p>
+    <p><strong>Approved By: </strong> <span id="approvedBy"></span></p>
+    <p><strong>Date of Order:</strong> <span id="dateOfOrder"></span></p>
+  </div>
+
+  <div id="plantDetailsContainer" class="plant-details-container">
+    <div class="plant-details">
+      <h2>Plant Details</h2>
+<!--       <p><strong>Plant Name:</strong> <span id="plantName"></span></p>-->
+<!--    <p><strong>Quantity:</strong> <span id="plantQuantity"></span></p>-->
+<!--    <p><strong>Details:</strong> <span id="plantDetails"></span></p>-->
+    </div>
+  </div>
+  <br />
+  <br />
+</div>
+
+<div class="location-details-container">
+  <div class="location-details">
+    <h2>Location Details</h2>
+    <p>
+      <strong>Google Maps Link:</strong>
+      <a id="googleMapsLink" target="_blank" rel="noopener noreferrer"
+      >Open in Google Maps</a
+      >
+    </p>
+    <p><strong>Location Image:</strong></p>
+    <div class="location-image-container">
+      <div id="prelocationImages" class="location-image">
+        <span class="text">BEFORE PLANTING</span>
+
+      </div>
+      <div class="vertical"></div>
+      <div id="postlocationImages" class="location-image">
+        <span class="text">AFTER PLANTING</span>
       </div>
     </div>
-    <br>
-    <br>
-
-    <div class="location-details">
-      <h2>Location Details</h2>
-      <p><strong>Google Maps Link:</strong> <a id="googleMapsLink" target="_blank" rel="noopener noreferrer">Open in Google Maps</a></p>
-      <p><strong>Location Image:</strong></p>
-      <div id="locationImages"></div>
-    </div>
-
-    <button id="approveOrderButton">Approve Order</button>
   </div>
-  <div class="loading-overlay" id="loadingOverlay">
-    <div class="loading-spinner"></div>
-  </div>
-  
-  <script src="js/orderDetails.js"></script>
-  <script src="js/common.js"></script>
+</div>
+
+<div id="approveOrderButton" style="margin-left : 5%;margin-bottom : 30px;"></div>
+</div>
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+</div>
+
+<script src="js/orderDetails.js?v=1.0"></script>
+<script src="js/common.js?v=1.0"></script>
 </body>
 </html>

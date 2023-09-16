@@ -32,7 +32,7 @@ public class StatesDistrictTalukCreation implements CommandLineRunner {
         if (stateRepo.findAll().size() == 0) {
 
             long startTime = System.currentTimeMillis();
-            FileInputStream excel = new FileInputStream("src\\main\\resources\\static\\details.xls");
+            FileInputStream excel = new FileInputStream("details.xls");
             Workbook workbook = new HSSFWorkbook(excel);
             Sheet sheet = workbook.getSheetAt(0);
             Map<String , State> states = new HashMap<>();

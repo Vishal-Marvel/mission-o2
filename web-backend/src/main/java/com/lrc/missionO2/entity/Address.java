@@ -15,7 +15,7 @@ public class Address {
     private String pinCode;
     private String state;
     private String district;
-    private String city;
+    private String taluk;
     private String country;
 
 }

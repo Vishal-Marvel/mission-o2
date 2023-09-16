@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create User</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js?v=1.0"></script>
+    <link rel="stylesheet" href="css/addPlant.css?v=1.0" />
+    <link rel="stylesheet" href="css/header.css?v=1.0" />
+    <link rel="icon" href="resources/Mission-O2-Logo-1.png" />
+  </head>
+  <body>
+    <header>
+      <div class="logo-container">
+        <img
+          src="resources/Final-LRC-LOGO.png"
+          style="width: 300px"
+          alt="Logo 1"
+        />
+        <!--        <img  src="resources/Mission-O2-Logo-1.png" alt="Logo 2" />-->
+        <img
+          style="
+            /*-webkit-filter: drop-shadow(10px 10px 10px #fff);
+                      filter: drop-shadow(-2px 2px 4px #fff);*/
+            background-color: #edfdf5;
+            border-radius: 20px;
+            padding-bottom: 3px;
+          "
+          src="resources/Mission-O2-Logo-1.png"
+          alt="Logo 2"
+        />
+      </div>
+      <div class="user-container">
+        <button id="panel" class="login-button">Back</button>
+      </div>
+    </header>
+    <main>
+      <div class="intro-part">
+        <p
+          style="
+            font: sans;
+            font-size: 40px;
+            color: #1d617a;
+            margin: 25px;
+            font-weight: bold;
+          "
+        >
+          Create Admin Assistant User
+        </p>
+      </div>
+      <div class="addPlant-form-container">
+        <h2
+          style="
+            color: #1d617a;
+            font-weight: bold;
+            align-self: center;
+            font-size: 30px;
+            margin-bottom: 30px;
+            margin-top: 10px;
+          "
+        >
+          User Details
+        </h2>
+        <form id="userForm">
+          <label for="userName">User Name:</label>
+          <input type="text" id="userName" required />
+
+          <label for="userEmail">Email Id:</label>
+          <input type="email" id="userEmail" required />
+
+          <label for="password">Password:</label>
+          <input type="password" id="password" required />
+
+          <label for="confirmPass">Confirm Password:</label>
+          <input type="password" id="confirmPass" required />
+          <!-- <label for="image" class="custom-file-input">
+      </label> -->
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+      </div>
+    </main>
+    <script src="js/common.js?v=1.0"></script>
+
+    <script src="js/createUser.js?v=1.0"></script>
+  </body>
+</html>

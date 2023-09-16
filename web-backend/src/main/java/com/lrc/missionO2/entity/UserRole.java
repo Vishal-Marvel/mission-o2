@@ -11,5 +11,6 @@ By assigning different roles to users, the system can control their access to va
 */
 public enum UserRole {
     ROLE_USER,
-    ROLE_ADMIN;
+    ROLE_ADMIN,
+    ROLE_ADMIN_ASSIST
 }
