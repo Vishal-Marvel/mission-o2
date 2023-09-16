@@ -15,5 +15,6 @@ import java.util.UUID;
 public class FileData {
     @Id
     private String id = UUID.randomUUID().toString();
+    private String fileName;
     private byte[] data;
 }

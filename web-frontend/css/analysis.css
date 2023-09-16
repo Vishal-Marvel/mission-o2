@@ -1,79 +1,147 @@
+/* style.css */
+
+/* Common styles for all screen sizes */
+/* body {
+  width: 90%;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px; 
+  
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  background-color: #f0f0f0;
+} */
 body {
-    width :90%;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 50px;
-    display: flex;
-    min-height: 100vh;
-    background-color: #f0f0f0;
-    /* overflow: -mo\; */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding-bottom: 50px;
+  background-color: #f5f5f5;
+}
+
+main {
+  width: 95%;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background-color: #f0f0f0; */
+}
+
+.description {
+  font-size: large;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  margin: 20px;
+  padding-left: 50px;
+}
+
+.searchInput {
+  margin-bottom: 40px;
+  width: 40%;
+  height: 40px;
+  font-size: medium;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 20px;
+  padding-left: 15px;
+  margin-left: 30%;
+}
+
+.place-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(250px, 1fr)
+  ); /* Responsive grid columns */
+  gap: 25px;
+  max-width: 95%;
+  flex-wrap: wrap;
+}
+
+.place-card-button {
+  height: 70%;
+  width: 80%;
+  background-color: #7ec263;
+  color: black;
+  border: none;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.place-card-button:hover {
+  background-color: #679b53;
+}
+
+.null-button {
+  background-color: #7ec263;
+  color: black;
+  border: none;
+  border-radius: 20px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: default;
+}
+
+.loading-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.loading-spinner {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-  
-  .place-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    max-width: 100%;
+  100% {
+    transform: rotate(360deg);
   }
-  
-  .place-card {
-    width: 80%;
-    max-width: 750px;
-    max-height: 150px;
-    border: 1px solid #ccc;
-    padding: 20px;
-    margin : 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    
-  }
-  
-  .place-name {
-    font-weight: bold;
+}
+
+/* Media query for small screens */
+@media screen and (max-width: 600px) {
+  main {
+    padding: 10px; /* Adjust padding for small screens */
   }
 
-  .place-count{
-    margin-bottom: 1px;
+  .place-grid {
+    grid-template-columns: 1fr; /* Single column layout on small screens */
+    gap: 10px;
   }
-  
-  .place-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 5px;
+
+  .place-card {
+    margin: 10px 0; /* Adjust margin for small screens */
   }
-  
-  .place-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .loading-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-  }
-  
-  .loading-spinner {
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid #3498db;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+}

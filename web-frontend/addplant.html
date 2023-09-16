@@ -1,50 +1,87 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add Plant page</title>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <link rel="stylesheet" href="css/panel.css">
-  <script src="js/common.js"></script>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Plant</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js?v=1.0"></script>
+    <link rel="stylesheet" href="css/addPlant.css?v=1.0" />
+    <link rel="stylesheet" href="css/header.css?v=1.0" />
+    <link rel="icon" href="resources/Mission-O2-Logo-1.png" />
+  </head>
+  <body>
+    <header>
+      <div class="logo-container">
+        <img
+          src="resources/Final-LRC-LOGO.png"
+          style="width: 300px"
+          alt="Logo 1"
+        />
+        <!--        <img  src="resources/Mission-O2-Logo-1.png" alt="Logo 2" />-->
+        <img
+          style="
+            /*-webkit-filter: drop-shadow(10px 10px 10px #fff);
+                      filter: drop-shadow(-2px 2px 4px #fff);*/
+            background-color: #edfdf5;
+            border-radius: 20px;
+            padding-bottom: 3px;
+          "
+          src="resources/Mission-O2-Logo-1.png"
+          alt="Logo 2"
+        />
+      </div>
+      <div class="user-container">
+        <button id="panel" class="login-button">Back</button>
+      </div>
+    </header>
+    <main>
+      <div class="intro-part">
+        <p
+          style="
+            font: sans;
+            font-size: 40px;
+            color: #1d617a;
+            margin: 25px;
+            font-weight: bold;
+          "
+        >
+          Add Plant
+        </p>
+      </div>
+      <div class="addPlant-form-container">
+        <h2
+          style="
+            color: #1d617a;
+            font-weight: bold;
+            align-self: center;
+            font-size: 30px;
+            margin-bottom: 30px;
+            margin-top: 10px;
+          "
+        >
+          Plant Information Form
+        </h2>
+        <form id="addPlantForm">
+          <label for="plantName">Plant Name:</label>
+          <input type="text" id="plantName" required />
 
-  <script src="js/addplant.js"></script>
+          <label for="plantPrice">Plant Price:</label>
+          <input type="float" id="plantPrice" required />
 
-</head>
-<body>
-  <header>
-    <div class="logo-container">
-      <img src="resources/Final-LRC-LOGO-1.png" style="width:60px;" alt="Logo 1">
-      <img src="resources/Mission-O2-Logo-1.png" alt="Logo 2">
-    </div>
-    <div class="user-container">
-      <button id="redirectButton" class="login-button">Logout</button>
-      <img src="resources/user-icon.jpeg" alt="User Icon" class="user-icon">
-    </div>
-  </header>
-  <main>
-    <div class = "intro-part">
-        <p style="font:sans; font-size: 40px; color: #1d617a; margin:5px ;font-weight: bold;">Add Plant</p>
-    </div>
-    <div class="addPlant-form-container">
-      <h2 style="color: #1d617a; font-weight: bold; align-self: center; font-size: 30px;margin-bottom : 30px ; margin-top: 10px;">Plant Information Form</h2>
-      <form id="addPlantForm">
-        <label for="plantName">Plant Name:</label>
-        <input type="text" id="plantName" required>
-        
-        <label for="plantPrice">Plant Price:</label>
-        <input type="float" id="plantPrice" required>
-        
-        <label for="seedPrice">Seed Price:</label>
-        <input type="float" id="seedPrice" required>
-        
-        <label for="image">Image:</label>
-        <input type="file" id="image" accept="image/*" multiple required>
-        
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-    <div class="loading-overlay" id="loadingOverlay">
-      <div class="loading-spinner"></div>
-    </div>
-  </main>
-</body>
+          <label for="seedPrice">Seed Price:</label>
+          <input type="float" id="seedPrice" required />
+          <!-- <label for="image" class="custom-file-input"> 
+          </label> -->
+          <input type="file" id="image" accept="image/*" multiple required />
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+      </div>
+    </main>
+    <script src="js/common.js?v=1.0"></script>
+
+    <script src="js/addplant.js?v=1.0"></script>
+  </body>
+</html>

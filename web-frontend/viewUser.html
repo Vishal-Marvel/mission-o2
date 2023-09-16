@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js?v=1.0"></script>
+
+    <title>View All User</title>
+    <link rel="stylesheet" href="css/viewUser.css?v=1.0" />
+    <link rel="stylesheet" href="css/header.css?v=1.0" />
+
+    <link rel="icon" href="resources/Mission-O2-Logo-1.png" />
+  </head>
+  <body>
+    <header>
+      <div class="logo-container">
+        <img
+          src="resources/Final-LRC-LOGO.png"
+          style="width: 300px"
+          alt="Logo 1"
+        />
+        <!--        <img  src="resources/Mission-O2-Logo-1.png" alt="Logo 2" />-->
+        <img
+          style="
+            /*-webkit-filter: drop-shadow(10px 10px 10px #fff);
+                      filter: drop-shadow(-2px 2px 4px #fff);*/
+            background-color: #edfdf5;
+            border-radius: 20px;
+            padding-bottom: 3px;
+          "
+          src="resources/Mission-O2-Logo-1.png"
+          alt="Logo 2"
+        />
+      </div>
+      <div class="user-container">
+        <button id="panel" class="login-button">Back</button>
+      </div>
+    </header>
+    <main style="display: flex; flex-direction: column; align-items: center">
+      <div class="intro-part">
+        <p
+          style="
+            font: sans;
+            font-size: 40px;
+            color: #1d617a;
+            margin: 5px;
+            font-weight: bold;
+          "
+        >
+          All Users
+        </p>
+      </div>
+      <button id="toggleFilter" class="toggleFilter">Toggle Filter</button>
+      <div class="filter-section" id="filterSection">
+        <div class="form-container">
+          <div class="form-column">
+            <label for="state">State:</label><br />
+            <input type="text" id="state" name="state" /><br />
+
+            <label for="taluk">Taluk:</label><br />
+            <input type="text" id="taluk" name="taluk" /><br />
+
+            <label for="district">District:</label><br />
+            <input type="text" id="district" name="district" /><br />
+          </div>
+
+          <div class="form-column">
+            <label for="plants">Plants planted Count:</label>(Greater than)<br />
+            <input type="number" id="plants" name="plants" /><br />
+
+            <label for="orders">Order Count:</label>(Greater than)<br />
+            <input type="number" id="orders" name="orders" /><br />
+          </div>
+        </div>
+        <div id="filter-buttons" style="margin-left: 38%; margin-top: 20px">
+          <button class="filter-button" id="applyFilter">Apply Filter</button>
+          <button class="filter-button" id="resetFilter">Reset Filter</button>
+        </div>
+      </div>
+
+      <div class="download-options">
+        <button class="download-button" id="downloadAsExcel">
+          Download as Excel
+        </button>
+        <button class="download-button" id="downloadAsPDF">
+          Download as PDF
+        </button>
+      </div>
+
+      <table id="usersTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>State</th>
+            <th>District</th>
+            <th>Taluk</th>
+            <th>Plants Ordered</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- Data rows will be dynamically added here -->
+        </tbody>
+        <tr id="noRecordsMessage" style="display: none">
+          <td colspan="8" style="text-align: center">No items match</td>
+        </tr>
+      </table>
+      <div class="pagination">
+        <label style="font-size: 20px; font-weight: bold"
+          >Number of records in this page :</label
+        >
+        <input
+          type="text"
+          id="dataPerPage"
+          placeholder="Data per Page"
+          value="5"
+        />
+      </div>
+      <div class="pagination">
+        <button id="prevBtn">Previous</button>
+        <label style="font-size: 20px; font-weight: bold">Page no. :</label>
+        <input type="text" id="currentPage" placeholder="Page No." value="1" />
+        of <span id="totalPage"></span>
+        <button id="nextBtn">Next</button>
+      </div>
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+      </div>
+      <script src="js/viewUser.js?v=1.0"></script>
+      <script src="js/common.js?v=1.0"></script>
+    </main>
+  </body>
+</html>

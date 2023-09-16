@@ -1,44 +1,169 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>View All Orders</title>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <link rel="stylesheet" href="css/panel.css">
-</head>
-<body>
-  <header>
-    <div class="logo-container">
-      <img src="resources/Final-LRC-LOGO-1.png" style="width:60px;" alt="Logo 1">
-      <img src="resources/Mission-O2-Logo-1.png" alt="Logo 2">
-    </div>
-    <div class="user-container">
-      <button id="redirectButton" class="login-button">Logout</button>
-      <img src="resources/user-icon.jpeg" alt="User Icon" class="user-icon">
-    </div>
-  </header>
-  <main style="display : flex ; flex-direction :column ; align-items: center;">
-    <div class = "intro-part">
-        <p style="font:sans; font-size: 40px; color: #1d617a; margin:5px ;font-weight: bold;">View All Orders</p>
-    </div>
-    <div class = "product-panel-container">
-      <div class="product-panel" id="productsContainer">
-        <!-- <div class="product">
-          <img src="../resources/user-icon.jpeg" alt="Product 1">
-          <div class = "product-description">
-            <h3>Product Name</h3>
-            <p class="price">$19.99</p>
-            <button class="add-to-cart-button">Add to Cart</button>
-          </div>
-        </div> -->
-        <!-- Add more product divs here -->
-      </div>
-    </div>
-    <div class="loading-overlay" id="loadingOverlay">
-      <div class="loading-spinner"></div>
-    </div>
-    <script src="js/viewOrders.js"></script>
-    <script src="js/common.js"></script>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-  </main>
-</body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View All Orders</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js?v=1.0"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="css/viewOrder.css?v=1.0" />
+    <link rel="stylesheet" href="css/header.css?v=1.0" />
+
+    <link rel="icon" href="resources/Mission-O2-Logo-1.png" />
+  </head>
+  <body>
+    <header>
+      <div class="logo-container">
+        <img
+          src="resources/Final-LRC-LOGO.png"
+          style="width: 300px"
+          alt="Logo 1"
+        />
+        <!--        <img  src="resources/Mission-O2-Logo-1.png" alt="Logo 2" />-->
+        <img
+          style="
+            /*-webkit-filter: drop-shadow(10px 10px 10px #fff);
+                      filter: drop-shadow(-2px 2px 4px #fff);*/
+            background-color: #edfdf5;
+            border-radius: 20px;
+            padding-bottom: 3px;
+          "
+          src="resources/Mission-O2-Logo-1.png"
+          alt="Logo 2"
+        />
+      </div>
+      <div class="user-container">
+        <button id="panel" class="login-button">Back</button>
+      </div>
+    </header>
+    <main style="display: flex; flex-direction: column; align-items: center">
+      <div class="intro-part">
+        <p
+          style="
+            font: sans;
+            font-size: 40px;
+            color: #1d617a;
+            margin: 20px 5px;
+            margin-top: 20px;
+            font-weight: bold;
+          "
+        >
+          View All Orders
+        </p>
+      </div>
+      <!-- Add a button to toggle the filter section -->
+      <button id="toggleFilter" class="toggleFilter">Toggle Filter</button>
+      <div class="filter-section" id="filterSection">
+        <div class="form-container">
+          <div class="form-column">
+            <label for="state">State:</label>
+            <input type="text" id="state" name="state" /><br />
+
+            <label for="district">District:</label>
+            <input type="text" id="district" name="district" /><br />
+
+            <label for="taluk">Taluk:</label>
+            <input type="text" id="taluk" name="taluk" /><br />
+          </div>
+          <div class="form-column">
+            <label for="from">From:</label>
+            <input type="date" id="from" name="from" /><br />
+
+            <label for="to">To:</label>
+            <input type="date" id="to" name="to" /><br />
+            <br />
+            <label>Status:</label><br />
+            <label for="completed" style="font-size: 17px">Completed</label>
+            <input
+              type="radio"
+              id="completed"
+              name="status"
+              value="COMPLETED"
+            />
+            <label for="approved" style="font-size: 17px">Approved</label>
+            <input type="radio" id="approved" name="status" value="APPROVED" />
+            <label for="pending" style="font-size: 17px">Pending</label>
+            <input type="radio" id="pending" name="status" value="PENDING" />
+            <label for="all" style="font-size: 17px">All</label>
+            <input
+              type="radio"
+              id="all"
+              name="status"
+              value="ALL"
+              checked
+            /><br />
+          </div>
+        </div>
+        <div id="filter-buttons" style="margin-left: 38%; margin-top: 20px">
+          <button class="filter-button" id="applyFilter">Apply Filter</button>
+          <button class="filter-button" id="resetFilter">Reset Filter</button>
+        </div>
+      </div>
+
+      <div class="download-options">
+        <input
+          type="text"
+          name="search"
+          id="search"
+          placeholder="Search by Order Number"
+        />
+        <button class="download-button" id="downloadAsExcel">
+          Download as Excel
+        </button>
+        <button class="download-button" id="downloadAsPDF">
+          Download as PDF
+        </button>
+      </div>
+
+      <table id="ordersTable">
+        <thead>
+          <tr>
+            <th>Order Number</th>
+            <th>Order Date</th>
+            <th>Total Plants</th>
+            <th>Total Price</th>
+            <th>State</th>
+            <th>District</th>
+            <th>Taluk</th>
+            <th>Status</th>
+            <th>Approved by</th>
+            <th>view</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- Data rows will be dynamically added here -->
+        </tbody>
+        <tr id="noRecordsMessage" style="display: none">
+          <td colspan="10" style="text-align: center">No items match</td>
+        </tr>
+      </table>
+      <div class="pagination">
+        <label style="font-size: 20px; font-weight: bold"
+          >Number of records in this page :</label
+        >
+        <input
+          type="text"
+          id="dataPerPage"
+          placeholder="Data per Page"
+          value="5"
+        />
+      </div>
+      <div class="pagination">
+        <button id="prevBtn">Previous</button>
+        <label style="font-size: 20px; font-weight: bold">Page no. :</label>
+        <input type="text" id="currentPage" placeholder="Page No." value="1" />
+        of <span id="totalPage"></span>
+        <button id="nextBtn">Next</button>
+      </div>
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+      </div>
+      <script src="js/viewOrders.js?v=1.0"></script>
+      <script src="js/common.js?v=1.0"></script>
+    </main>
+  </body>
+</html>

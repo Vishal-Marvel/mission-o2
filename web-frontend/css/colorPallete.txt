@@ -1,0 +1,6 @@
+base green - #03a678
+lifeless green - #649C84
+perl white - #EDFDF5
+skin color - #DEB887
+dark green - #007147
+grey - #384B42

@@ -1,8 +1,6 @@
 package com.lrc.missionO2.controller;
 
-import com.lrc.missionO2.DTO.Response.Places;
-import com.lrc.missionO2.repository.Address.DistrictRepo;
-import com.lrc.missionO2.repository.Address.StateRepo;
+import com.lrc.missionO2.DTO.Response.ListResponse;
 import com.lrc.missionO2.services.AddressService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +16,7 @@ public class AddressController {
     private final AddressService addressService;
 
     @GetMapping("/view-places")
-    public ResponseEntity<Places> getPlaces(
+    public ResponseEntity<ListResponse> getPlaces(
             @RequestParam(value = "state" , required = false) String state,
             @RequestParam(value = "district", required = false) String district
     ){

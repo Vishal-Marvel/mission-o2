@@ -1,5 +1,6 @@
 package com.lrc.missionO2.DTO.Request;
 
+import com.lrc.missionO2.entity.Address;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -17,10 +18,8 @@ public class SetProfileRequest {
     private String name;
     @Email(message = "Enter Valid Email")
     private String email;
-    private String address;
-    private String city;
-    private String state;
+    private Address address;
     private Date dob;
-    private MultipartFile file;
+//    private MultipartFile file;
 
 }

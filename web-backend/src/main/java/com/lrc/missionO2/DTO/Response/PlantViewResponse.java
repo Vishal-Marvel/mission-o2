@@ -16,5 +16,5 @@ public class PlantViewResponse {
     private String name;
     private Float seedPrice;
     private Float plantPrice;
-    private List<byte[]> images;
+    private List<String> images;
 }

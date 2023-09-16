@@ -1,42 +1,194 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Website with Header</title>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-  <link rel="stylesheet" href="css/index.css">
-</head>
-<body>
-  <header>
-    <div class="logo-container">
-      <img src="resources/Final-LRC-LOGO-1.png" style="width:60px;" alt="Logo 1">
-      <img src="resources/Mission-O2-Logo-1.png" alt="Logo 2">
-    </div>
-    <div class="user-container">
-      <button id="login-button" class="login-button">Login</button>
-      <img src="resources/user-icon.jpeg" alt="User Icon" class="user-icon">
-    </div>
-  </header>
-  <main>
-    <span>
-    <div class="main-banner">
-      <div class="content">
-        <p id="count" style="font:sans; font-size: 70px; color: white; margin-top : 4px; margin-bottom : 5px; font-weight: bold;">0</p>
-        <p style="font:sans; font-size: 25px; color: white; margin-top: 0px ;font-weight: bold">more remain..</p>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <!-- <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script> -->
+
+    <link rel="stylesheet" href="css/index.css?v=1.0" />
+    <link rel="stylesheet" href="css/header.css?v=1.0" />
+    <link rel="icon" href="resources/Mission-O2-Logo-1.png" />
+  </head>
+  <body>
+    <header>
+      <div class="logo-container">
+        <img
+          src="resources/Final-LRC-LOGO.png"
+          style="width: 300px"
+          alt="Logo 1"
+        />
+        <!--        <img  src="resources/Mission-O2-Logo-1.png" alt="Logo 2" />-->
+        <img
+          style="
+            /*-webkit-filter: drop-shadow(10px 10px 10px #fff);
+                      filter: drop-shadow(-2px 2px 4px #fff);*/
+            background-color: #edfdf5;
+            border-radius: 20px;
+            padding-bottom: 3px;
+          "
+          src="resources/Mission-O2-Logo-1.png"
+          alt="Logo 2"
+        />
       </div>
-    </div>
-    </span>
-    <p style="font:sans; font-size: 30px; color: #6cd9bd; margin:5px ;font-weight: bold;">Welcome</p>
-    <p style="font:sans; font-size: 25px; color: #1d617a; margin:5px ;font-weight: bold;">to a better, greener Earth</p>
-    <button class="admin-panel-button" id="admin-panel-button" style="margin-top: 20px;font-size: 25px;">Admin Panel</button>
-    <div class="loading-overlay" id="loadingOverlay">
-      <div class="loading-spinner"></div>
-    </div>
-    <script src="js/index.js"></script>
-    <script src="js/common.js"></script>
-    
-  </main>
+      <div class="user-container">
+        <button id="login-button" class="login-button">Login</button>
+      </div>
+    </header>
+    <main>
+      <span>
+        <div class="main-banner">
+          <div class="content">
+            <p id="count" class="counter">10,000,008</p>
+            <p
+              style="
+                font: sans;
+                font-size: 25px;
+                color: white;
+                margin-top: 0px;
+                font-weight: bold;
+              "
+            >
+              more remain..
+            </p>
+          </div>
+        </div>
+      </span>
+      <div class="mission-leads">
+        <p style="font-size: 36px;
+                  font-weight: 1000;
+                  color : #007147;
+                  margin : 0px auto 30px auto;">Mission O2 Leaders</p>
+        <div class="flip-cards-container">
+          <div class="flip-card" id="flipCard1">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <span class="ribbon">#1</span>
+                <h1>Lead User</h1>
+                <h2></h2>
+                <!-- <p>Architect & Engineer</p>
+                <p>We love that guy</p> -->
+              </div>
+              <div class="flip-card-back">
+                <h1>Plants Planted</h1>
+                <h2></h2>
+                <!-- <p>Architect & Engineer</p>
+                <p>We love that guy</p> -->
+              </div>
+            </div>
+          </div>
+          <div class="flip-card" id="flipCard2">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <span class="ribbon">#1</span>
+                <h1>Lead State</h1>
+                <h2></h2>
+                <!-- <p>Architect & Engineer</p>
+                <p>We love that guy</p> -->
+              </div>
+              <div class="flip-card-back">
+                <h1>Plants Planted</h1>
+                <h2></h2>
+                <!-- <p>Architect & Engineer</p>
+                <p>We love that guy</p> -->
+              </div>
+            </div>
+          </div>
+          <div class="flip-card" id="flipCard3">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <span class="ribbon">#1</span>
+                <h1>Lead District</h1>
+                <h2></h2>
+                <!-- <p>Architect & Engineer</p>
+                <p>We love that guy</p> -->
+              </div>
+              <div class="flip-card-back">
+                <h1>Plants Planted</h1>
+                <h2></h2>
+                <!-- <p>Architect & Engineer</p>
+                <p>We love that guy</p> -->
+              </div>
+            </div>
+          </div>
+          <div class="flip-card" id="flipCard4">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <span class="ribbon">#1</span>
+                <h1>Lead taluk</h1>
+                <h2></h2>
+                <!-- <p>Architect & Engineer</p>
+                <p>We love that guy</p> -->
+              </div>
+              <div class="flip-card-back">
+                <h1>Plants Planted</h1>
+                <h2></h2>
+                <!-- <p>Architect & Engineer</p>
+                <p>We love that guy</p> -->
+              </div>
+            </div>
+          </div>
+          <div class="flip-card" id="flipCard5">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <span class="ribbon">#1</span>
+                <h1>Lead Plant</h1>
+                <h2></h2>
+                <!-- <p>Architect & Engineer</p>
+                <p>We love that guy</p> -->
+              </div>
+              <div class="flip-card-back">
+                <h1>Plants Planted</h1>
+                <h2></h2>
+                <!-- <p>Architect & Engineer</p>
+                <p>We love that guy</p> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mission-analytics">
+        <div class="chart-container">
+          <h2>Last Week Sales</h2>
+          <canvas id="myChart" style="font-size: 30px;"></canvas>
+        </div>
+        <div class="coloured-map">
 
+        </div>
+      </div>
+      <p
+        style="
+          font: sans;
+          border-radius: 15px;
+          /*background-color: aliceblue;*/
+          font-size: 30px;
+          color: #10463a;
+          margin: 5px;
+          font-weight: bold;
+          padding: 2px;
+        "
+      >
+        Gallery
+      </p>
+      <!-- <p style="font:sans; font-size: 25px; color: #1d617a; margin:5px ;font-weight: bold;">to a better, greener Earth</p> -->
+      <!-- <button class="admin-panel-button" id="admin-panel-button" style="margin-top: 20px;font-size: 25px;">Admin Panel</button> -->
+      <!-- <div class="carousel-container">
+      <ul class="carousel-list">
+        
+      </ul>
+      <button class="prev-button carousel-button">Previous</button>
+      <button class="next-button carousel-button">Next</button>
+    </div>  -->
+      <div class="image-grid" id="imageGrid"></div>
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+      </div>
 
-</body></html>
+      <script src="js/index.js?v=1.0"></script>
+      <script src="js/common.js?v=1.0"></script>
+    </main>
+  </body>
+</html>
