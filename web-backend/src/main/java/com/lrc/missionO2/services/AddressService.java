@@ -38,7 +38,7 @@ public class AddressService {
         }else if (district!=null && state!=null){
             State rcqdState = stateRepo.findByStateNameLikeIgnoreCase(state)
                     .orElseThrow(()->new ItemNotFoundException("State " + state + " Not Found"));
-            District rcqdDistrict = districtRepo.findByDistrictNameLikeIgnoreCaseAndState(district, rcqdState)
+            District rcqdDistrict = districtRepo.findByDistrictNameIgnoreCaseAndState(district, rcqdState)
                     .orElseThrow(()-> new ItemNotFoundException("District " + district + " Not Found"));
             places = ListResponse.builder().elements(rcqdDistrict.getTaluks()).build();
         }

@@ -1,22 +1,15 @@
 package com.lrc.missionO2.services;
 
-import com.lrc.missionO2.DTO.Request.PlantRequest;
+import com.lrc.missionO2.DTO.Request.AddPlantRequest;
 import com.lrc.missionO2.DTO.Response.FileResponse;
 import com.lrc.missionO2.DTO.Response.PaginatedResponse;
-import com.lrc.missionO2.DTO.Response.PlantSummaryDTO;
 import com.lrc.missionO2.DTO.Response.PlantViewResponse;
 import com.lrc.missionO2.entity.FileData;
-import com.lrc.missionO2.entity.Order;
 import com.lrc.missionO2.entity.Plant;
 import com.lrc.missionO2.exceptions.ItemNotFoundException;
 import com.lrc.missionO2.repository.FileRepo;
 import com.lrc.missionO2.repository.PlantRepo;
 import lombok.RequiredArgsConstructor;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +18,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,33 +69,33 @@ public class PlantService {
         return response;
     }
 
-    public String addPlant(PlantRequest plantRequest) throws IOException {
+    public String addPlant(AddPlantRequest addPlantRequest) throws IOException {
         Plant plant = new Plant();
-        plant.setPlantPrice(plantRequest.getPlantPrice());
-        plant.setName(plantRequest.getName());
-        plant.setSeedPrice(plantRequest.getSeedPrice());
+        plant.setPlantPrice(addPlantRequest.getPlantPrice());
+        plant.setName(addPlantRequest.getName());
+        plant.setSeedPrice(addPlantRequest.getSeedPrice());
         List<String> files = new ArrayList<>();
-        saveImages(plantRequest, files, plant);
+        saveImages(addPlantRequest, files, plant);
         plantRepo.save(plant);
-        return "Plant " + plantRequest.getName() + " Saved";
+        return "Plant " + addPlantRequest.getName() + " Saved";
 
     }
 
-    public String updatePlant(String id, PlantRequest updatePlantRequest) throws IOException {
+    public String updatePlant(String id, AddPlantRequest updateAddPlantRequest) throws IOException {
         List<String> files = new ArrayList<>();
         Plant plant = plantRepo.findById(id)
                 .orElseThrow(()->new ItemNotFoundException("Plant with id: " + id + " Not Found"));
-        plant.setName(updatePlantRequest.getName());
-        plant.setPlantPrice(updatePlantRequest.getPlantPrice());
-        plant.setSeedPrice(updatePlantRequest.getSeedPrice());
+        plant.setName(updateAddPlantRequest.getName());
+        plant.setPlantPrice(updateAddPlantRequest.getPlantPrice());
+        plant.setSeedPrice(updateAddPlantRequest.getSeedPrice());
         fileRepo.deleteAllById(plant.getImages());
-        saveImages(updatePlantRequest, files, plant);
+        saveImages(updateAddPlantRequest, files, plant);
         plantRepo.save(plant);
         return "Plant with id: " + id + " Updated";
     }
 
-    private void saveImages(PlantRequest updatePlantRequest, List<String> files, Plant plant) throws IOException {
-        for (MultipartFile image : updatePlantRequest.getImages()) {
+    private void saveImages(AddPlantRequest updateAddPlantRequest, List<String> files, Plant plant) throws IOException {
+        for (MultipartFile image : updateAddPlantRequest.getImages()) {
             FileData file = new FileData();
             file.setData(imageService.compressImages(image));
             file.setFileName(image.getOriginalFilename());

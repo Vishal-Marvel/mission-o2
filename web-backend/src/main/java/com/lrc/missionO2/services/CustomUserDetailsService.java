@@ -3,13 +3,11 @@ package com.lrc.missionO2.services;
 import com.lrc.missionO2.entity.User;
 import com.lrc.missionO2.exceptions.UserNotFoundException;
 import com.lrc.missionO2.repository.UserRepo;
-import io.swagger.v3.oas.annotations.servers.Server;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;

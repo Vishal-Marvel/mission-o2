@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * This class represents the error details that are returned by the REST API in case of an exception.
@@ -16,6 +17,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class ErrorDetails {
     private Date timestamp;
-    private String message;
+    private Object message;
     private String details;
 }

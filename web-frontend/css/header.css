@@ -2,7 +2,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(132, 84, 84, 0.69);
+    background:transparent;
     color: #fff;
     padding: 10px;
 }
@@ -26,9 +26,9 @@ header {
 }
 
 .login-button {
-    background-color: transparent;
+    background-color: darkgreen;
     color: #EDFDF5;
-    border : 3px solid #EDFDF5;
+    border : 1px solid darkblue;
     padding: 10px 20px;
     border-radius: 23px;
     font-size: 20px;
@@ -39,4 +39,6 @@ header {
 }
 .login-button:hover{
     transform: translateY(-3px);
+    background-color:darkblue;
+    border: 1px solid darkgreen;
 }

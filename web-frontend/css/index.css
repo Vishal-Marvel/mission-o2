@@ -3,10 +3,14 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-image: url("../resources/img1.avif");
+  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),url("../resources/img1.jpg");
   /* background-color: #1bd8c8; */
   background-size: cover;
-  background-blend-mode: color-burn;
+  background-position:center center ;
+  /*background-blend-mode: color-burn;*/
+  height:300vh;
+  background-repeat: no-repeat;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 main{
@@ -31,57 +35,18 @@ main{
   justify-content: center;
   align-items: center;
   border: 4px solid #02281e;
-  background-color: rgba(22, 113, 85, 0.75);
+ background-image: url("../resources/image1.jpg");
+ background-position: center bottom;
+ background-size: cover;
   color: #fff;
   padding: 20px;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);;
 }
-
-.carousel-container {
-  overflow: hidden;
-  width: 95%;
-  border-radius: 20px;
-  padding-left: 20px;
-  margin: 15px;
-  position: relative;
-  /* background-color: #92e6ce; */
-}
-
-.carousel-list {
-  display: flex;
-  list-style-type: none;
-  transition: transform 0.8s ease;
-}
-
-.carousel-list li {
-  padding-right: 15px;
-  flex: 0 0 20%; 
-}
-
-.carousel-list img {
-  width: 300px;
-  height: auto;
-  border-radius: 15px;
-}
-
-
-.carousel-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  font-size: medium;
-  border-radius: 30px;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-}
-.next-button{
-  right: 0;
-}
-.prev-button{
-  left: 0;
+.main-banner:hover{
+   background-image: url("../resources/image1.jpg");
+   background-size: cover;
+   background-position:center bottom;
+    color:darkgreen;
 }
 /* SPACE FOR FLIP CARDS */
 .mission-leads{
@@ -92,12 +57,14 @@ main{
 }
 .flip-cards-container{
   display: flex;
-  flex-direction: row;
+  justify-content: center;
+
+  flex-wrap: wrap;
 }
 .flip-card {
   background-color: transparent;
-  width: 18%;
-  margin : 0px 1%;
+  width: 200px;
+  margin : 20px;
   height: 100px;
   /* border: 1px solid #f1f1f1; */
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
@@ -114,7 +81,7 @@ main{
 }
 .flip-card-inner h1,h2{
   color: #fff;
-  font-size: 25px;
+  font-size: 20px;
   margin : 15px 2px 10px 2px;
 }
 
@@ -136,7 +103,8 @@ main{
 /* Style the front side (fallback if image is missing) */
 .flip-card-front {
   border: 2px solid #02281e;
-  background-color: #03a678;
+  background:linear-gradient(to right,#004526,#008200);
+  
   color: black;
 }
 .ribbon {
@@ -158,29 +126,57 @@ main{
 /* Style the back side */
 .flip-card-back {
   border: 2px solid #fff;
-  background-color: dodgerblue;
+   background-image: url("../resources/image4.jpg");
+
+   background-position: bottom;
+   background-size:cover;
   color: white;
   transform: rotateY(180deg);
 }
 .mission-analytics{
-  width : 60%;
-  align-items : center;
-  margin : 50px auto 30px auto; 
+  display: flex;
+  flex-direction: row;
+  width : 95%;
+  /* height: 800px; */
+  /* justify-content: baseline; */
+  /* align-items : center; */
+  margin : 50px auto 30px auto;
 }
 .chart-container {
-  width: 100%;
+  width: 48%;
+  height: 490px;
+    background-color: rgba(0, 0, 0, 0.5);
   /* max-width: 600px; Adjust as needed */
   margin: 0;
   background-color: #f7f7f7;
   text-align: center;
   /* background-color: rgba(9, 255, 0, 0.322); */
-  border-radius: 10px;
+  border-radius: 20px;
   padding: 20px;
+  margin-right: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .chart-container h2{
   font-size: 36px;
-  color : #DEB887;
+  color : darkblue;
+  font-weight: bold;
+  margin : 10px 0px;
+}
+.map-chart{
+  width: 48%;
+  text-align: center;
+  height : 60%;
+  padding : 15px;
+  margin : 0px auto;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   background-color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 30px;
+}
+.map-chart h1{
+  font-size: 36px;
+  color : white;
   font-weight: bold;
   margin : 10px 0px;
 }
@@ -199,23 +195,61 @@ main{
   width: 20%;
   margin: 20px;
   aspect-ratio: 3/2;
-  border: 1px solid #ddd; 
-  border-radius: 20px; 
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-  transition: width 0.3s, box-shadow 0.3s ease;
+  object-fit: cover;
+  object-position: top center;
+  border:1px solid black;
+  /*border: 1px solid #ddd;*/
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  transition: width 0.3s ease;
 }
 .image-grid img:hover{
-  width : 22%;
-  box-shadow : 0px 0px 3px 3px #03a678;
+  width : 21%;
+  cursor: pointer;
+}
+.gallery-popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
 }
 
+.gallery-popup-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.gallery-popup-image {
+  max-width: 100%;
+  max-height: 80vh;
+}
+
+.gallery-popup-close-btn {
+  position: absolute;
+  top: 0px;
+  right: 5px;
+  font-size: 30px;
+  font-weight: bold;
+  color: red;
+  cursor: pointer;
+}
 .counter{
-  padding: 5%; 
-  font:sans; 
+  padding: 5%;
+  font:sans;
   font-size: 110px;
-  color: white; 
-  margin-top : 4px; 
-  margin-bottom : 5px; 
+  color: white;
+  margin-top : 4px;
+  margin-bottom : 5px;
   font-weight: bold;
 }
 

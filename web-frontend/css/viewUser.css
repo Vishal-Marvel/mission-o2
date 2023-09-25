@@ -2,7 +2,10 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f5f5f5;
+ background:linear-gradient(45deg,lightgreen,lightblue,white,silver);
+  background-repeat: no-repeat;
+  background-size:cover;
+  height: 100vh;
 }
 
 
@@ -13,7 +16,9 @@ main {
   justify-content: center;
   overflow: auto;
 }
-
+#usersTable{
+  max-width: 80%;
+}
 #usersTable th,
 #usersTable td {
   font-weight: bold;

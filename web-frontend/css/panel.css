@@ -3,7 +3,8 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f5f5f5;
+  background:url("../resources/bg.jpg");
+  background-size: cover;
 }
 
 
@@ -19,7 +20,7 @@ main {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-bottom: 40px;
+  /*margin-bottom: 40px;*/
 }
 .main-banner{
   margin: 30px;
@@ -30,7 +31,9 @@ main {
   justify-content: center;
   align-items: center;
   border: 4px solid #02281e;
-  background-color: rgba(22, 113, 85, 0.75);
+  background-image: url("../resources/image1.jpg");
+  background-size: cover;
+   background-position:center bottom;
   color: #fff;
   padding: 20px;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);;
@@ -66,7 +69,7 @@ main {
   text-align: center;
 }
 .operation-part {
-  width: 75%;
+  width: 90%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -81,21 +84,26 @@ main {
   display: none;
   align-items: center;
   justify-content: center;
-  background-color: #1bd8c8;
   border: none;
-  color: #000000;
+  color: white;
   padding: 10px 20px;
   font-size: 16px;
   font-weight: bold;
   border-radius: 15px;
   cursor: pointer;
   margin: 10px;
+  background: #1bd8c8 linear-gradient(-25deg, #006400, #004526, #138808, #03C03C, #008200);
+  background-size: 100% 200%; /* Double the height to account for the animation */
+  animation:  gradientAnimation 5s linear infinite alternate;
 }
 
-.new {
-  border: 3px solid blue;
-
-  animation: borderColorChange 2s infinite alternate;
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 0% 100%;
+  }
 }
 
 .panel-button:hover {

@@ -3,26 +3,29 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url("../resources/bg-image.png");
+    background-image: url("../resources/image2.jpg");
     background-blend-mode: overlay;
     background-color: rgb(220, 230, 208, 0.3);
      background-repeat: no-repeat;
      background-size: cover;
     /*background-position: left top;*/
     display: flex;
+    position: center;
     justify-content: center;
     align-items: center;
     height: 100vh;
   }
   
   .login-container {
-    height : 350px;
-    width : 350px;
-    background-color: #03a678;
+    height : 425px;
+    width : 400px;
+    background-color: rgba(0, 0, 0, 0.5);
     padding: 20px;
-    border-radius: 15px;
+    border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
+    border-top-left-radius: 50%;
+    border-bottom-right-radius: 50%;
   }
   
   input {
@@ -37,7 +40,7 @@ body {
   button {
     margin-top: 25px;
     font-weight: bold;
-    background-color: #18e2e2;
+    background-color: darkgoldenrod;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -47,7 +50,7 @@ body {
   }
 
   button:hover{
-    background-color: #11a79a;
+    background-color: darkgreen;
   }
   
   .loading-overlay {

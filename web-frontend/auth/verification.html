@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verification</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js?v=1.0"></script>
+
+    <link rel="stylesheet" href="verify.css?v=1.0" />
+
+    <link rel="icon" href="Mission-O2-Logo-New.png" />
+  </head>
+  <body>
+    <header>
+      <div class="logo-container">
+        <img src="Final-LRC-LOGO.png" style="width: 300px" alt="Logo 1" />
+        <!--        <img  src="resources/Mission-O2-Logo-New.png" alt="Logo 2" />-->
+      </div>
+      <div class="user-container">
+        <img class="logo" src="Mission-O2-Logo-New.png" alt="Logo 2" />
+      </div>
+    </header>
+
+    <div class="container">
+      <div id="success">
+        <span>Thanks for Registering with Mission O2</span>
+        <br />
+        <span>Success, Your Email is verified.</span>
+      </div>
+      <div id="failure">
+        <span>Sorry, Verification Failed</span>
+        <button id="try-again">Try Again</button>
+      </div>
+      <div id="Get-Email">
+        <span class="label">Request Verification</span>
+
+        <div class="input-container">
+          <label for="email">Email:</label>
+          <input type="email" name="" id="email" required />
+        </div>
+        <button id="send-mail">Send Mail</button>
+      </div>
+      <div id="Reset-Password">
+        <span class="label">Reset Password</span>
+        <div class="input-container">
+          <label for="password"> Password: </label>
+          <input type="password" name="" id="password" required />
+        </div>
+        <div class="input-container">
+          <label for="c-password">Confirm Password:</label>
+          <input type="password" name="" id="c-password" required />
+        </div>
+        <button id="resetPassword">Reset Password</button>
+      </div>
+      <div id="successReset">
+        <span>Thanks for Registering with Mission O2</span>
+        <br />
+        <span>Success, Your Password is Changed.</span>
+      </div>
+
+      <div id="Email-Sent">
+        <span>Verification Email Sent</span>
+      </div>
+    </div>
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-spinner"></div>
+    </div>
+
+    <script src="verify.js?v=1.0"></script>
+  </body>
+</html>

@@ -53,8 +53,8 @@ document.addEventListener('DOMContentLoaded',async function() {
               <td>${plant.name}</td>
               <td>${plant.seedPrice}</td>
               <td>${plant.plantPrice}</td>
-              <td><button class="details-button update-button" data-index="${startIndex + index}">Update</button></td>
-              <td><button class="details-button delete-button delete" data-index="${startIndex + index}" disabled>Delete</button></td>
+              <td><button class="details-button update-button" data-index="${index}">Update</button></td>
+              <td><button class="details-button delete-button delete" data-index="${index}" disabled>Delete</button></td>
           `;
           tableBody.appendChild(row);
       });

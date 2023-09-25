@@ -1,14 +1,11 @@
 package com.lrc.missionO2.controller;
 
-import com.lrc.missionO2.DTO.Request.AppLoginRequest;
-import com.lrc.missionO2.DTO.Request.AuthenticationRequest;
-import com.lrc.missionO2.DTO.Request.RegisterRequest;
-import com.lrc.missionO2.DTO.Request.SetProfileRequest;
+import com.lrc.missionO2.DTO.Request.*;
 import com.lrc.missionO2.DTO.Response.*;
 import com.lrc.missionO2.security.JWTTokenProvider;
 import com.lrc.missionO2.services.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.validation.Valid;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -17,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import jakarta.validation.Valid;
 import java.util.Objects;
 
 @RestController
@@ -27,25 +24,66 @@ public class UserController {
     private final UserService userService;
     private final JWTTokenProvider jwtTokenProvider;
 
-    @PostMapping("/register-user")
-    public ResponseEntity<MiscResponse> register(@Valid @RequestBody RegisterRequest registerRequest){
-       String response = userService.registerViaApp(registerRequest);
+    @PostMapping("/register-user-mobile")
+    public ResponseEntity<MiscResponse> registerViaMobile(@Valid @RequestBody RegisterRequestViaMobile registerRequestViaMobile){
+       String response = userService.registerViaAppViaMobile(registerRequestViaMobile);
+        return ResponseEntity.ok(MiscResponse.builder().response(response).build());
+    }
+    @PostMapping("/register-user-email")
+    public ResponseEntity<AuthenticationResponse> registerViaEmail(@Valid @RequestBody RegisterRequestViaEmail registerRequestViaEmail){
+        return ResponseEntity.ok(userService.registerViaAppViaEmail(registerRequestViaEmail));
+    }
+    @PostMapping("/verify-email/{code}")
+    public ResponseEntity<MiscResponse> verifyEmail(@PathVariable String code){
+        String response = userService.verifyEmail(code);
         return ResponseEntity.ok(MiscResponse.builder().response(response).build());
     }
 
+
     @PostMapping("/login-portal")
-    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody AuthenticationRequest authenticationRequest){
-        return ResponseEntity.ok(userService.authenticatePortal(authenticationRequest));
+    public ResponseEntity<AuthenticationResponse> loginToPortal(@Valid @RequestBody LoginRequestWithEmail loginRequestWithEmail){
+        return ResponseEntity.ok(userService.authenticateWithEmail(loginRequestWithEmail, false));
     }
-    @PostMapping("/login-user")
-    public ResponseEntity<AuthenticationResponse> loginUser(@Valid @RequestBody AppLoginRequest appLoginRequest){
-            return ResponseEntity.ok(userService.authenticateApp(appLoginRequest));
+    @PostMapping("/login-user-mobile")
+    public ResponseEntity<AuthenticationResponse> loginToAppViaMobile(@Valid @RequestBody AppLoginRequestViaMobile appLoginRequestViaMobile){
+            return ResponseEntity.ok(userService.authenticateViaAppUsingOTP(appLoginRequestViaMobile));
+    }
+
+    @PostMapping("/login-user-email")
+    public ResponseEntity<AuthenticationResponse> loginToAppViaEmail(@Valid @RequestBody LoginRequestWithEmail loginRequestWithEmail){
+            return ResponseEntity.ok(userService.authenticateWithEmail(loginRequestWithEmail, true));
+    }
+
+    @PostMapping("/dynamic-verify")
+    public ResponseEntity<MiscResponse> dynamicVerify(@RequestBody ResetPasswordRequest resetPasswordRequest) throws MessagingException {
+        userService.requestVerificationMail(resetPasswordRequest, false);
+        return ResponseEntity.ok(MiscResponse.builder()
+                .response("Verification Link Sent").build());
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<MiscResponse> resetPassword(@Valid @RequestBody ResetPasswordDTO resetPasswordRequest,
+                                                      @RequestParam("code") String code){
+        String response = userService.resetPassword(code, resetPasswordRequest);
+        return ResponseEntity.ok(MiscResponse.builder()
+                .response(response).build());
+    }
+
+    @PostMapping("/reset-password-request")
+    public ResponseEntity<MiscResponse> resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest){
+        String response = userService.requestVerificationMail(resetPasswordRequest, true);
+        return ResponseEntity.ok(MiscResponse.builder()
+                .response(response).build());
     }
 
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_ADMIN_ASSIST')")
     @PutMapping("/update-profile")
-    public ResponseEntity<MiscResponse> setProfile(@Valid @ModelAttribute SetProfileRequest setProfileRequest) throws IOException {
+    public ResponseEntity<MiscResponse> setProfile(@RequestBody @Valid SetProfileRequest setProfileRequest)  {
+
+//        if (bindingResult.hasErrors()){
+//            throw new InvalidArgumentException(bindingResult.getFieldErrors());
+//        }
         String response = userService.setProfile(setProfileRequest);
         return ResponseEntity.ok(MiscResponse.builder().response(response).build());
     }
@@ -56,7 +94,7 @@ public class UserController {
     public ResponseEntity<ViewProfileResponse> viewProfile(
             @RequestParam(value = "user", required = false) String user
     ){
-        return ResponseEntity.ok(userService.viewProfile(user));
+        return ResponseEntity.ok(userService.viewCustomerProfile(user));
     }
 
 //    @SecurityRequirement(name = "Bearer Authentication")
@@ -78,7 +116,7 @@ public class UserController {
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/view/{offSet}/{size}")
-    public ResponseEntity<PaginatedResponse<ViewProfileResponse>> users(
+    public ResponseEntity<PaginatedResponse<ViewProfileResponse>> customers(
             @PathVariable Integer offSet, @PathVariable Integer size,
             @RequestParam(value = "state",required = false) String state,
             @RequestParam(value = "district", required = false) String district,
@@ -86,7 +124,7 @@ public class UserController {
             @RequestParam(value = "plants", required = false) Integer plantPlantedCount,
             @RequestParam(value = "orders", required = false) Integer ordersCount
     ){
-        return ResponseEntity.ok(userService.viewUsers(offSet, size, state, district, taluk, plantPlantedCount, ordersCount));
+        return ResponseEntity.ok(userService.viewCustomers(offSet, size, state, district, taluk, plantPlantedCount, ordersCount));
     }
 
     @GetMapping("/isActive/{token}")
@@ -103,7 +141,7 @@ public class UserController {
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/download")
-    public ResponseEntity<Resource> download(
+    public ResponseEntity<Resource> downloadUsers(
             @RequestParam(value = "state",required = false) String state,
             @RequestParam(value = "district", required = false) String district,
             @RequestParam(value = "taluk", required = false) String taluk,
@@ -124,6 +162,6 @@ public class UserController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .contentType(mediaType)
-                .body(userService.downloadUsers(state, district, taluk, plantPlantedCount, ordersCount, type));
+                .body(userService.downloadCustomers(state, district, taluk, plantPlantedCount, ordersCount, type));
     }
 }

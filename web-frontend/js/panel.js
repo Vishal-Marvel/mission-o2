@@ -86,9 +86,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             orders = 0;
         });
 
-    goToApprOrder.innerText += ` (${orders})`;
+    goToApprOrder.innerHTML += ` (${orders})`;
     if (orders > 0) {
-        goToApprOrder.classList.add("new");
         goToApprOrder.style.display = "flex";
         goToApprOrder.addEventListener("click", function () {
             window.location.href = "apprOrders.html";

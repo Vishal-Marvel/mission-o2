@@ -7,6 +7,7 @@ import com.lrc.missionO2.DTO.Response.*;
 import com.lrc.missionO2.entity.*;
 import com.lrc.missionO2.entity.addressList.District;
 import com.lrc.missionO2.entity.addressList.State;
+import com.lrc.missionO2.exceptions.APIException;
 import com.lrc.missionO2.exceptions.ConstraintException;
 import com.lrc.missionO2.exceptions.ItemNotFoundException;
 import com.lrc.missionO2.exceptions.UserNotFoundException;
@@ -17,6 +18,7 @@ import com.lrc.missionO2.repository.OrderRepo;
 import com.lrc.missionO2.repository.PlantRepo;
 import com.lrc.missionO2.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
+import org.apache.xpath.operations.Or;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +30,7 @@ import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -54,6 +57,16 @@ public class OrderService {
     private final DistrictRepo districtRepo;
     private final FileService fileService;
 
+    public static boolean onlyDigits(String str) {
+
+        for (int i = 0; i < str.length(); i++) {
+
+            if (!Character.isDigit(str.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
     public long getTotalOrderCount() {
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.group().count().as("totalOrderCount")
@@ -73,10 +86,13 @@ public class OrderService {
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepo.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User Not Found"));
+        if (onlyDigits(createOrderRequest.getAddress().getPinCode())){
+            throw new ConstraintException("Pin Code should not contain characters");
+        }
         Order order = new Order();
         order.setUser(user.getId());
         order.setOrderNum("MO2-" + (getTotalOrderCount() + 1));
-        order.setOrderStatus("PENDING");
+        order.setOrderStatus(OrderStatus.PENDING);
         order.setDistrict(createOrderRequest.getDistrict());
         order.setTaluk(createOrderRequest.getTaluk());
         order.setState(createOrderRequest.getState());
@@ -92,7 +108,7 @@ public class OrderService {
                 fileRepo.save(fileData);
                 return fileData.getId();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new APIException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }).toList());
         double price = 0;
@@ -138,7 +154,7 @@ public class OrderService {
                                 .id(order.getId())
                                 .orderNum(order.getOrderNum())
                                 .orderDate(order.getOrderDate())
-                                .orderStatus(order.getOrderStatus())
+                                .orderStatus(order.getOrderStatus().name())
                                 .totalPrice(order.getTotalPrice())
                                 .state(order.getState())
                                 .district(order.getDistrict())
@@ -171,7 +187,7 @@ public class OrderService {
             query.addCriteria(Criteria.where("orderDate").gte(fromDate).lte(toDate));
         }
         if (status != null) {
-            query.addCriteria(Criteria.where("orderStatus").is(status));
+            query.addCriteria(Criteria.where("orderStatus").is(OrderStatus.valueOf(status)));
         }
 
         query.with(Sort.by(Sort.Direction.DESC, "orderDate"));
@@ -201,7 +217,7 @@ public class OrderService {
         return OrderResponse.builder()
                 .id(order.getId())
                 .orderNum(order.getOrderNum())
-                .orderStatus(order.getOrderStatus())
+                .orderStatus(order.getOrderStatus().name())
                 .locationURL(order.getLocationURL())
                 .totalPrice(order.getTotalPrice())
                 .totalPlant(order.getTotalPlants())
@@ -227,7 +243,7 @@ public class OrderService {
                 .orElseThrow(() -> new UserNotFoundException("User Not Found"));
         Order order = orderRepo.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException("Order with Id : " + id + " Not Found"));
-        order.setOrderStatus(status);
+        order.setOrderStatus(OrderStatus.valueOf(status));
         order.setApprovedBy(user.getUsername());
         orderRepo.save(order);
         return "Order Status set - " + status;
@@ -238,16 +254,19 @@ public class OrderService {
 
         if (district == null && state == null) {
             aggregation = newAggregation(
+                    Aggregation.match(Criteria.where("orderStatus").is(OrderStatus.COMPLETED)),
                     Aggregation.group("state").sum("totalPlants").as("count")
             );
         } else if (state != null && district == null) {
             aggregation = newAggregation(
                     Aggregation.match(Criteria.where("state").is(state)),
+                    Aggregation.match(Criteria.where("orderStatus").is(OrderStatus.COMPLETED)),
                     Aggregation.group("district").sum("totalPlants").as("count")
             );
         } else {
             aggregation = newAggregation(
                     Aggregation.match(Criteria.where("district").is(district)),
+                    Aggregation.match(Criteria.where("orderStatus").is(OrderStatus.COMPLETED)),
                     Aggregation.group("taluk").sum("totalPlants").as("count")
             );
         }
@@ -274,7 +293,7 @@ public class OrderService {
 
     public long getTotalCount() {
         Aggregation aggregation = newAggregation(
-                match(Criteria.where("orderStatus").is("COMPLETED")), // Filter completed orders
+                match(Criteria.where("orderStatus").is(OrderStatus.COMPLETED)), // Filter completed orders
                 group().sum("totalPlants").as("totalPlantsSum")
         );
 
@@ -286,13 +305,13 @@ public class OrderService {
     public String getOrderStatus(String id) {
         Order order = orderRepo.findById(id)
                 .orElseThrow(() -> new ItemNotFoundException("Order with id: " + id + " not Found"));
-        return order.getOrderStatus();
+        return order.getOrderStatus().name();
     }
 
     public String addPostImages(String orderId, PostImagesRequest postImagesRequest) {
         Order order = orderRepo.findById(orderId)
                 .orElseThrow(() -> new ItemNotFoundException("Order with id: " + orderId + " not Found"));
-        if  (!Objects.equals(order.getOrderStatus(), "APPROVED")){
+        if  (!Objects.equals(order.getOrderStatus(), OrderStatus.APPROVED)){
             throw new ConstraintException("Order Not yet Approved");
         }
         order.setPostImages(postImagesRequest.getImages().stream().map((img) -> {
@@ -303,10 +322,10 @@ public class OrderService {
                 fileRepo.save(fileData);
                 return fileData.getId();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new APIException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }).toList());
-        order.setOrderStatus("COMPLETED");
+        order.setOrderStatus(OrderStatus.COMPLETED);
         orderRepo.save(order);
         return "Images Added";
     }
@@ -319,7 +338,7 @@ public class OrderService {
         calendar.add(Calendar.DAY_OF_YEAR, -7);
         Date startDate = calendar.getTime();
 
-        List<Order> orders = orderRepo.findAllByOrderDateBetween(startDate, currentDate);
+        List<Order> orders = orderRepo.findAllByOrderDateBetweenAndOrderStatus(startDate, currentDate, OrderStatus.COMPLETED);
         Map<Date, Integer> dateTotalPlantsMap = new HashMap<>();
 
         Calendar dateIterator = Calendar.getInstance();
@@ -331,12 +350,12 @@ public class OrderService {
         for (Order order : orders) {
 
             Date orderDateWithoutTime = removeTimeComponent(order.getOrderDate());
-            dateTotalPlantsMap.merge(orderDateWithoutTime, order.getTotalPlants(), Integer::sum);
+            dateTotalPlantsMap.put(orderDateWithoutTime, dateTotalPlantsMap.getOrDefault(orderDateWithoutTime, 0)+order.getTotalPlants());
         }
 
         return dateTotalPlantsMap.entrySet().stream()
                 .map(entry -> new OrderSummaryDTO(entry.getKey(), entry.getValue()))
-                .collect(Collectors.toList());
+                .sorted(Comparator.comparing(OrderSummaryDTO::getDate)).collect(Collectors.toList());
     }
 
     private Date removeTimeComponent(Date date) {
@@ -351,16 +370,19 @@ public class OrderService {
 
     public OrderStats findHighestOrderStats() {
         // Find all orders
-        List<Order> orders = orderRepo.findAll();
+        List<Order> orders = orderRepo.findAllByOrderStatus(OrderStatus.COMPLETED);
 
         // Pre-fetch user information and store it in a map
         Map<String, String> userNames = new HashMap<>();
         for (Order order : orders) {
             String userId = order.getUser();
             if (!userNames.containsKey(userId)) {
-                User user = userRepo.findById(userId)
-                        .orElseThrow(() -> new UserNotFoundException("User Not Found"));
-                userNames.put(userId, user.getUsername());
+                if (userRepo.findById(userId).isPresent()) {
+                    User user = userRepo.findById(userId).get();
+                    userNames.put(userId, user.getUsername());
+                }else{
+                    userNames.put(userId, "user Name");
+                }
             }
         }
 
@@ -423,7 +445,7 @@ public class OrderService {
 
         Query query = new Query().with(pageable);
         query.with(Sort.by(Sort.Direction.DESC, "orderDate"));
-        query.addCriteria(Criteria.where("orderStatus").is("COMPLETED"));
+        query.addCriteria(Criteria.where("orderStatus").is(OrderStatus.COMPLETED));
 
         List<Order> orders = mongoOperations.find(query, Order.class);
 //        System.out.println("orders = " + orders);
@@ -456,7 +478,7 @@ public class OrderService {
 
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new APIException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

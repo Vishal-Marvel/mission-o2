@@ -1,5 +1,7 @@
 package com.lrc.missionO2.entity;
 
+import com.lrc.missionO2.validators.ValidAddress;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ValidAddress(message = "All Address Fields are mandatory")
 public class Address {
     private String addressLine1;
     private String addressLine2;

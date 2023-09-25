@@ -24,17 +24,20 @@ document.addEventListener('DOMContentLoaded', async function() {
     console.error(error);
   })
   stopLoading();
-
+  console.log(orderData)
   document.getElementById('userName').textContent = orderData.user;
   document.getElementById('orderID').textContent = orderData.orderNum;
   document.getElementById('userAddress').textContent =
-      `${orderData.address.addressLine1}, ${orderData.address.addressLine2}, ${orderData.address.taluk}, ${orderData.address.district}, ${orderData.address.state}, ${orderData.address.pincode}` ;
+      `${orderData.address.addressLine1}, ${orderData.address.addressLine2}, ${orderData.address.taluk}, ${orderData.address.district}, ${orderData.address.state}, ${orderData.address.pinCode}` ;
   document.getElementById('userDistrict').textContent = orderData.district;
   document.getElementById('userTaluk').textContent = orderData.taluk;
   document.getElementById('userState').textContent = orderData.state;
   document.getElementById('status').textContent = orderData.orderStatus;
   document.getElementById('approvedBy').textContent = orderData.approvedBy;
   document.getElementById('dateOfOrder').textContent = orderData.orderDate.slice(0, 10);
+  document.getElementById('view-user').addEventListener("click", function (){
+    window.location.href = "userDetails.html?user="+orderData.userId;
+  })
 
   let n = 1;
   const userDetailsContainer = document.getElementById("userDetailsContainer");
@@ -108,7 +111,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   const approveOrderButton = document.createElement('button')
   approveOrderButton.innerText = "Approve"
   approveOrderButton.classList.add("approve");
-  if (orderData.orderStatus == "PENDING"){
+  if (orderData.orderStatus === "PENDING"){
     const container = document.getElementById('approveOrderButton');
 
     container.appendChild(approveOrderButton);

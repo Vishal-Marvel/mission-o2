@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepo extends MongoRepository<User, String> {
-    boolean existsByUsername(String username);
     Optional<User> findByEmail(String email);
     Optional<User> findByMobile(String mobile);
     List<User> findAllByRole(UserRole role);
+    Optional<User> findByOTP(String otp);
 }

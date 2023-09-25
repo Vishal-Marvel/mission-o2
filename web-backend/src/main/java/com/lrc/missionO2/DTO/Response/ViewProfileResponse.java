@@ -13,6 +13,7 @@ public class ViewProfileResponse {
     private String name;
     private String email;
     private String mobile;
+    private String gender;
     private Address address;
     private Date dob;
 //    private String proof;

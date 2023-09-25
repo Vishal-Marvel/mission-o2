@@ -1,7 +1,7 @@
 package com.lrc.missionO2.controller;
 
 
-import com.lrc.missionO2.DTO.Request.PlantRequest;
+import com.lrc.missionO2.DTO.Request.AddPlantRequest;
 import com.lrc.missionO2.DTO.Response.FileResponse;
 import com.lrc.missionO2.DTO.Response.MiscResponse;
 import com.lrc.missionO2.DTO.Response.PaginatedResponse;
@@ -9,15 +9,11 @@ import com.lrc.missionO2.DTO.Response.PlantViewResponse;
 import com.lrc.missionO2.services.PlantService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,7 +30,7 @@ public class PlantController {
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ADMIN_ASSIST')")
     @PostMapping("/create/add")
-    public ResponseEntity<MiscResponse> addProduct(@ModelAttribute PlantRequest AddplantRequest) throws IOException {
+    public ResponseEntity<MiscResponse> addProduct(@ModelAttribute AddPlantRequest AddplantRequest) throws IOException {
         String response = plantService.addPlant(AddplantRequest);
         return ResponseEntity.ok(MiscResponse.builder().response(response).build());
     }
@@ -47,8 +43,8 @@ public class PlantController {
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ADMIN_ASSIST')")
     @PutMapping("/{id}")
-    public ResponseEntity<MiscResponse> updateProduct(@ModelAttribute PlantRequest updatePlantRequest, @PathVariable String id) throws IOException {
-        String response = plantService.updatePlant(id, updatePlantRequest);
+    public ResponseEntity<MiscResponse> updateProduct(@ModelAttribute AddPlantRequest updateAddPlantRequest, @PathVariable String id) throws IOException {
+        String response = plantService.updatePlant(id, updateAddPlantRequest);
         return ResponseEntity.ok(MiscResponse.builder().response(response).build());
 
     }

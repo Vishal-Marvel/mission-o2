@@ -15,7 +15,9 @@ public class APIException extends RuntimeException {
     private final HttpStatus status;
 
     public APIException(String message,  HttpStatus status) {
+        super(message);
         this.message = message;
         this.status = status;
+
     }
 }

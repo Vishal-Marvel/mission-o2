@@ -15,7 +15,7 @@ public class Order {
     private String orderNum;
     private String user;
     private Date orderDate;
-    private String orderStatus;
+    private OrderStatus orderStatus;
     private String locationURL;
     private String district;
     private String taluk;

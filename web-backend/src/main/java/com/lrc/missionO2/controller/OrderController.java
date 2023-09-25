@@ -5,6 +5,7 @@ import com.lrc.missionO2.DTO.Request.PostImagesRequest;
 import com.lrc.missionO2.DTO.Response.*;
 import com.lrc.missionO2.services.OrderService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,7 +29,7 @@ public class OrderController {
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/create")
-    public ResponseEntity<MiscResponse> createOrder(@ModelAttribute CreateOrderRequest createOrderRequest) {
+    public ResponseEntity<MiscResponse> createOrder(@ModelAttribute @Valid CreateOrderRequest createOrderRequest) {
         String response = orderService.createOrder(createOrderRequest);
         return ResponseEntity.ok(MiscResponse.builder().response(response).build());
     }

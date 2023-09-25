@@ -16,7 +16,7 @@ public class AdminUserCreation implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (!userRepo.existsByUsername("admin")){
+        if (userRepo.findByEmail("admin@lrc.com").isEmpty()){
             User user = new User();
             user.setUsername("admin");
             user.setRole(UserRole.ROLE_ADMIN);

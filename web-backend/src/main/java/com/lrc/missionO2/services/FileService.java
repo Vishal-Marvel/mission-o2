@@ -135,7 +135,7 @@ public class FileService {
             row.createCell(3).setCellValue(order.getState());
             row.createCell(4).setCellValue(order.getTaluk());
             row.createCell(5).setCellValue(order.getDistrict());
-            row.createCell(6).setCellValue(order.getOrderStatus());
+            row.createCell(6).setCellValue(order.getOrderStatus().name());
             row.createCell(7).setCellValue(order.getTotalPrice());
             row.createCell(8).setCellValue(order.getTotalPlants());
         }
@@ -158,7 +158,7 @@ public class FileService {
             addCell(table, order.getState());
             addCell(table, order.getTaluk());
             addCell(table, order.getDistrict());
-            addCell(table, order.getOrderStatus());
+            addCell(table, order.getOrderStatus().name());
             addCell(table, String.valueOf(order.getTotalPrice()));
             addCell(table, String.valueOf(order.getTotalPlants()));
 

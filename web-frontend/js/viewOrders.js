@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     const totalPagesDoc = document.getElementById("totalPage");
     const search = document.getElementById("search");
     const noRecordsMessage = document.getElementById('noRecordsMessage');
-
+    const urlParams = new URLSearchParams(window.location.search);
+    const taluk = urlParams.get('taluk');
 
     let currentPage = 1;
     let dataPerPage = dataPerPageInput.value;
@@ -130,7 +131,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
     });
 
-    await getData();
     search.addEventListener("input", async function () {
         doFilter();
 
@@ -147,7 +147,12 @@ document.addEventListener('DOMContentLoaded', async function () {
     const filterSection = document.getElementById("filterSection");
     const applyFilter = document.getElementById('applyFilter');
     const reset = document.getElementById('resetFilter');
+    if (taluk !== null){
+        url+= "taluk="+taluk+"&";
+        talukInput.value = taluk;
 
+    }
+    await getData();
     function generateUrl() {
 
         const selectedStatus = document.querySelector('input[name="status"]:checked').value;
